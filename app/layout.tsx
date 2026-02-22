@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AMETRINE — Multispectral Concealment Systems",
+  title: "AMETRINE — Multispectral Signature Management",
   description:
     "Technologies to be invisible. AMETRINE delivers multispectral concealment solutions for tactical superiority across all domains.",
 };
@@ -14,6 +14,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

@@ -14,7 +14,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -22,67 +22,51 @@ export default function Navbar() {
   const handleNav = (href: string) => {
     setMenuOpen(false);
     const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
     <nav
-      className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-40 transition-all duration-400"
       style={{
-        backgroundColor: scrolled ? "rgba(20,20,18,0.97)" : "#141412",
-        borderBottom: scrolled ? "1px solid rgba(252,193,23,0.15)" : "1px solid transparent",
-        backdropFilter: scrolled ? "blur(12px)" : "none",
+        height: 72,
+        backgroundColor: scrolled ? "rgba(8,8,8,0.96)" : "#080808",
+        borderBottom: scrolled
+          ? "1px solid rgba(201,168,76,0.18)"
+          : "1px solid transparent",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between h-[80px]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 h-full">
+        <div className="flex items-center justify-between h-full">
           {/* Logo */}
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-            <svg width="38" height="44" viewBox="0 0 38 44" fill="none">
-              <path
-                d="M19 1.5L36.5 11.25V32.75L19 42.5L1.5 32.75V11.25L19 1.5Z"
-                fill="none"
-                stroke="#fcc117"
-                strokeWidth="1.2"
-              />
-              <path
-                d="M19 9L30 15V29L19 35L8 29V15L19 9Z"
-                fill="#fcc117"
-                fillOpacity="0.1"
-                stroke="#fcc117"
-                strokeWidth="0.5"
-              />
-              <text
-                x="19"
-                y="26"
-                textAnchor="middle"
-                fill="#fcc117"
-                fontSize="7"
-                fontWeight="700"
-                letterSpacing="0.5"
-                fontFamily="monospace"
-              >
-                AMT
-              </text>
-            </svg>
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            role="button"
+            aria-label="Home"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo-icon.png"
+              alt="Ametrine"
+              style={{ width: 28, height: "auto" }}
+            />
             <span
-              className="text-white font-bold tracking-[0.25em] text-lg"
-              style={{ fontFamily: "system-ui, sans-serif" }}
+              className="text-white font-bold"
+              style={{ fontSize: 15, letterSpacing: "0.28em" }}
             >
               AMETRINE
             </span>
           </div>
 
           {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <button
                 key={link.label}
                 onClick={() => handleNav(link.href)}
-                className="text-xs font-bold tracking-[0.2em] transition-colors duration-300 hover:text-[#fcc117]"
-                style={{ color: "rgba(255,255,255,0.7)" }}
+                className="nav-link"
               >
                 {link.label}
               </button>
@@ -91,18 +75,34 @@ export default function Navbar() {
 
           {/* Mobile hamburger */}
           <button
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-[5px] p-2 cursor-pointer"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
+            style={{ background: "none", border: "none" }}
           >
             <span
-              className={`block w-6 h-0.5 bg-[#fcc117] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
+              className="block h-px transition-all duration-300"
+              style={{
+                width: 22,
+                backgroundColor: "#C9A84C",
+                transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
+              }}
             />
             <span
-              className={`block w-6 h-0.5 bg-[#fcc117] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}
+              className="block h-px transition-all duration-300"
+              style={{
+                width: 22,
+                backgroundColor: "#C9A84C",
+                opacity: menuOpen ? 0 : 1,
+              }}
             />
             <span
-              className={`block w-6 h-0.5 bg-[#fcc117] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+              className="block h-px transition-all duration-300"
+              style={{
+                width: 22,
+                backgroundColor: "#C9A84C",
+                transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none",
+              }}
             />
           </button>
         </div>
@@ -110,15 +110,20 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div
-        className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-64" : "max-h-0"}`}
-        style={{ backgroundColor: "#141412", borderTop: menuOpen ? "1px solid rgba(252,193,23,0.15)" : "none" }}
+        className="md:hidden overflow-hidden transition-all duration-300"
+        style={{
+          maxHeight: menuOpen ? 280 : 0,
+          backgroundColor: "#080808",
+          borderTop: menuOpen ? "1px solid rgba(201,168,76,0.12)" : "none",
+        }}
       >
-        <div className="flex flex-col px-6 py-4 gap-4">
+        <div className="flex flex-col px-6 py-6 gap-5">
           {navLinks.map((link) => (
             <button
               key={link.label}
               onClick={() => handleNav(link.href)}
-              className="text-left text-xs font-bold tracking-[0.2em] text-white/70 hover:text-[#fcc117] transition-colors py-2"
+              className="text-left nav-link"
+              style={{ fontSize: 13 }}
             >
               {link.label}
             </button>

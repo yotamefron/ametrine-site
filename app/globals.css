@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --gold: #fcc117;
-  --dark: #141412;
-  --darker: #0e0e0c;
-  --darkest: #0a0a09;
-  --card-bg: #1a1a18;
+  --gold: #C9A84C;
+  --gold-dim: rgba(201,168,76,0.15);
+  --gold-glow: rgba(201,168,76,0.4);
+  --red: #CC0000;
+  --dark: #080808;
+  --card-bg: #0d0d0d;
+  --border: #1a1a1a;
 }
 
 * {
@@ -19,51 +21,154 @@ html {
 }
 
 body {
-  background-color: #141412;
+  background-color: #080808;
   color: #ffffff;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--font-inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-  width: 4px;
-}
-::-webkit-scrollbar-track {
-  background: #141412;
-}
-::-webkit-scrollbar-thumb {
-  background: #fcc11740;
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #fcc117;
-}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #080808; }
+::-webkit-scrollbar-thumb { background: rgba(201,168,76,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #C9A84C; }
 
 /* Selection */
-::selection {
-  background-color: #fcc11730;
-  color: #fcc117;
+::selection { background-color: rgba(201,168,76,0.2); color: #C9A84C; }
+
+/* ── Keyframes ─────────────────────────────────────────────── */
+
+@keyframes scanlines {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 4px; }
 }
 
-/* Hero animate utility */
-.hero-animate {
-  opacity: 0;
-  transform: translateY(1.5rem);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(201,168,76,0.4)); }
+  50%       { filter: drop-shadow(0 0 24px rgba(201,168,76,0.9)) drop-shadow(0 0 48px rgba(201,168,76,0.4)); }
 }
-.hero-animate.animate-in {
+
+@keyframes pulse-bg {
+  0%, 100% { opacity: 0.05; transform: scale(1); }
+  50%       { opacity: 0.12; transform: scale(1.4); }
+}
+
+@keyframes line-draw {
+  from { width: 0%; opacity: 0; }
+  to   { width: 100%; opacity: 1; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-10px); }
+  30%, 70% { transform: translateX(10px); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── Utility classes ─────────────────────────────────────────── */
+
+.scanlines-overlay {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  animation: scanlines 0.08s linear infinite;
+}
+
+.logo-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.typing-cursor {
+  animation: blink 0.8s step-end infinite;
+  color: #C9A84C;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Reveal animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.revealed {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Shake animation */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  10%, 50%, 90% { transform: translateX(-8px); }
-  30%, 70% { transform: translateX(8px); }
+/* Nav underline hover */
+.nav-link {
+  position: relative;
+  color: rgba(255,255,255,0.65);
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
-.animate-shake {
-  animation: shake 0.6s ease-in-out;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #C9A84C;
+  transition: width 0.2s ease;
+}
+.nav-link:hover {
+  color: #C9A84C;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Hero animate in */
+.hero-el {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.hero-el.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gold animated line */
+.gold-line {
+  height: 1px;
+  background: #C9A84C;
+  width: 0%;
+  opacity: 0;
+}
+.gold-line.draw {
+  animation: line-draw 1.4s ease 1.8s forwards;
 }

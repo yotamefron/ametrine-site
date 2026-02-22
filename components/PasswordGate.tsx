@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 
-const SITE_PASSWORD = "AMETRINE2025"; // single place to change it
+const SITE_PASSWORD = "AMETRINE2026";
+const TYPING_TEXT = "AUTHORIZED PERSONNEL ONLY";
 
 interface PasswordGateProps {
   onUnlock: () => void;
@@ -13,10 +14,25 @@ export default function PasswordGate({ onUnlock }: PasswordGateProps) {
   const [status, setStatus] = useState<"idle" | "error" | "success">("idle");
   const [shake, setShake] = useState(false);
   const [visible, setVisible] = useState(true);
+  const [typedText, setTypedText] = useState("");
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    setMounted(true);
     inputRef.current?.focus();
+
+    // Typing effect
+    let i = 0;
+    const timer = setInterval(() => {
+      if (i < TYPING_TEXT.length) {
+        setTypedText(TYPING_TEXT.slice(0, i + 1));
+        i++;
+      } else {
+        clearInterval(timer);
+      }
+    }, 60);
+    return () => clearInterval(timer);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -28,8 +44,8 @@ export default function PasswordGate({ onUnlock }: PasswordGateProps) {
         setTimeout(() => {
           sessionStorage.setItem("ametrine_unlocked", "true");
           onUnlock();
-        }, 600);
-      }, 300);
+        }, 700);
+      }, 400);
     } else {
       setStatus("error");
       setShake(true);
@@ -38,88 +54,109 @@ export default function PasswordGate({ onUnlock }: PasswordGateProps) {
         setStatus("idle");
         setInput("");
         inputRef.current?.focus();
-      }, 1200);
+      }, 1400);
     }
   };
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-600 ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center transition-opacity duration-700 ${
         visible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
-      style={{ backgroundColor: "#141412" }}
+      style={{ backgroundColor: "#080808" }}
     >
-      {/* Background grid texture */}
+      {/* Scan lines overlay */}
+      <div className="scanlines-overlay absolute inset-0 pointer-events-none z-0 opacity-60" />
+
+      {/* Subtle vignette */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 pointer-events-none z-0"
         style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 39px, #fcc117 39px, #fcc117 40px), repeating-linear-gradient(90deg, transparent, transparent 39px, #fcc117 39px, #fcc117 40px)",
+          background:
+            "radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, rgba(0,0,0,0.6) 100%)",
         }}
       />
 
-      <div className="relative z-10 flex flex-col items-center gap-10 px-6 w-full max-w-sm">
+      {/* Gold pulse center glow */}
+      <div
+        className="absolute pointer-events-none z-0"
+        style={{
+          width: 500,
+          height: 500,
+          left: "50%",
+          top: "50%",
+          transform: "translate(-50%, -50%)",
+          background:
+            "radial-gradient(ellipse at center, rgba(201,168,76,0.06) 0%, transparent 70%)",
+          animation: "pulse-bg 6s ease-in-out infinite",
+        }}
+      />
+
+      {/* Content */}
+      <div
+        className="relative z-10 flex flex-col items-center gap-8 px-6 w-full max-w-[360px]"
+        style={{
+          opacity: mounted ? 1 : 0,
+          transition: "opacity 0.8s ease 0.3s",
+        }}
+      >
         {/* Logo */}
-        <div className="flex flex-col items-center gap-4">
-          <div className="relative">
-            <svg width="64" height="72" viewBox="0 0 64 72" fill="none">
-              <path
-                d="M32 2L62 18.5V53.5L32 70L2 53.5V18.5L32 2Z"
-                fill="none"
-                stroke="#fcc117"
-                strokeWidth="1.5"
-              />
-              <path
-                d="M32 14L52 25.5V48.5L32 60L12 48.5V25.5L32 14Z"
-                fill="#fcc117"
-                fillOpacity="0.08"
-                stroke="#fcc117"
-                strokeWidth="0.5"
-              />
-              <text
-                x="32"
-                y="41"
-                textAnchor="middle"
-                fill="#fcc117"
-                fontSize="11"
-                fontWeight="700"
-                letterSpacing="1"
-                fontFamily="monospace"
-              >
-                AMT
-              </text>
-            </svg>
-          </div>
+        <div className="flex flex-col items-center gap-5">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-icon.png"
+            alt="Ametrine"
+            className="logo-glow"
+            style={{ width: 72, height: "auto" }}
+          />
           <div className="text-center">
             <div
-              className="text-2xl font-bold tracking-[0.3em] text-white"
-              style={{ fontFamily: "system-ui, sans-serif" }}
+              className="text-white tracking-[0.35em] font-bold"
+              style={{ fontSize: 22, letterSpacing: "0.35em" }}
             >
               AMETRINE
             </div>
             <div
-              className="text-xs tracking-[0.2em] mt-1"
-              style={{ color: "#fcc117" }}
+              className="tracking-[0.2em] mt-1"
+              style={{ color: "#C9A84C", fontSize: 10, letterSpacing: "0.2em" }}
             >
-              RESTRICTED ACCESS
+              TECHNOLOGIES
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="w-full flex items-center gap-4">
-          <div className="flex-1 h-px" style={{ backgroundColor: "#fcc11740" }} />
-          <div className="text-xs tracking-widest" style={{ color: "#fcc11780" }}>
-            AUTHORIZED PERSONNEL ONLY
+        {/* Divider with typing text */}
+        <div className="w-full">
+          <div
+            className="h-px w-full mb-5"
+            style={{ background: "linear-gradient(to right, transparent, #C9A84C40, transparent)" }}
+          />
+          <div className="text-center" style={{ minHeight: 18 }}>
+            <span
+              style={{
+                color: "rgba(201,168,76,0.6)",
+                fontSize: 11,
+                letterSpacing: "0.3em",
+                fontWeight: 500,
+              }}
+            >
+              {typedText}
+            </span>
+            {typedText.length < TYPING_TEXT.length && (
+              <span className="typing-cursor" style={{ fontSize: 11 }}>
+                |
+              </span>
+            )}
           </div>
-          <div className="flex-1 h-px" style={{ backgroundColor: "#fcc11740" }} />
+          <div
+            className="h-px w-full mt-5"
+            style={{ background: "linear-gradient(to right, transparent, #C9A84C40, transparent)" }}
+          />
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-          <div
-            className={`transition-transform ${shake ? "animate-shake" : ""}`}
-          >
+        <form onSubmit={handleSubmit} className="w-full flex flex-col gap-3">
+          <div className={shake ? "animate-shake" : ""}>
             <input
               ref={inputRef}
               type="password"
@@ -128,68 +165,71 @@ export default function PasswordGate({ onUnlock }: PasswordGateProps) {
               placeholder="ENTER ACCESS CODE"
               autoComplete="off"
               spellCheck={false}
-              className="w-full bg-transparent border text-white text-sm tracking-[0.2em] px-5 py-4 outline-none placeholder-white/30 transition-all duration-300"
+              className="w-full bg-transparent text-white outline-none placeholder-white/25"
               style={{
-                borderColor:
+                border: "none",
+                borderBottom: `1px solid ${
                   status === "error"
-                    ? "#ef4444"
+                    ? "#CC0000"
                     : status === "success"
                     ? "#22c55e"
-                    : "#fcc11760",
-                boxShadow:
-                  status === "error"
-                    ? "0 0 20px rgba(239,68,68,0.2)"
-                    : status === "success"
-                    ? "0 0 20px rgba(34,197,94,0.2)"
-                    : "none",
+                    : "#C9A84C"
+                }`,
+                padding: "14px 0",
+                fontSize: 13,
+                letterSpacing: "0.25em",
+                fontWeight: 400,
+                transition: "border-color 0.3s ease",
               }}
             />
           </div>
 
-          {/* Error message */}
+          {/* Error */}
           <div
-            className={`text-center text-xs tracking-[0.3em] font-bold transition-opacity duration-300 ${
-              status === "error" ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ color: "#ef4444", minHeight: "1rem" }}
+            style={{
+              color: "#CC0000",
+              fontSize: 11,
+              letterSpacing: "0.3em",
+              fontWeight: 700,
+              textAlign: "center",
+              minHeight: 16,
+              opacity: status === "error" ? 1 : 0,
+              transition: "opacity 0.2s ease",
+            }}
           >
-            ACCESS DENIED
+            — ACCESS DENIED —
           </div>
 
           <button
             type="submit"
-            className="w-full py-4 text-sm font-bold tracking-[0.3em] transition-all duration-300 hover:brightness-110 active:scale-95"
+            className="w-full font-bold tracking-[0.3em] transition-all duration-200 hover:brightness-110 active:scale-[0.98]"
             style={{
-              backgroundColor: "#fcc117",
-              color: "#141412",
+              backgroundColor: status === "success" ? "#22c55e" : "#C9A84C",
+              color: "#080808",
+              padding: "16px 0",
+              fontSize: 12,
+              letterSpacing: "0.3em",
+              border: "none",
+              cursor: "pointer",
+              transition: "background-color 0.3s ease",
             }}
           >
-            AUTHENTICATE
+            {status === "success" ? "ACCESS GRANTED" : "AUTHENTICATE"}
           </button>
         </form>
 
-        {/* Bottom text */}
+        {/* Bottom label */}
         <p
-          className="text-center text-xs tracking-widest"
-          style={{ color: "#ffffff30" }}
+          style={{
+            color: "rgba(255,255,255,0.18)",
+            fontSize: 10,
+            letterSpacing: "0.2em",
+            textAlign: "center",
+          }}
         >
           AMETRINE TECHNOLOGIES — CONFIDENTIAL
         </p>
       </div>
-
-      <style jsx>{`
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          10%, 50%, 90% { transform: translateX(-8px); }
-          30%, 70% { transform: translateX(8px); }
-        }
-        .animate-shake {
-          animation: shake 0.6s ease-in-out;
-        }
-        .duration-600 {
-          transition-duration: 600ms;
-        }
-      `}</style>
     </div>
   );
 }

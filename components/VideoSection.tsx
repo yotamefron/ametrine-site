@@ -1,120 +1,174 @@
 "use client";
 
-const VIDEO_CONFIG = {
-  type: "placeholder" as "placeholder" | "local" | "youtube",
-  url: "",
-};
+import { useEffect, useRef } from "react";
 
 export default function VideoSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          sectionRef.current?.querySelectorAll(".reveal").forEach((el, i) => {
+            setTimeout(() => el.classList.add("revealed"), i * 120);
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       id="video"
-      className="relative py-24 lg:py-32"
-      style={{ backgroundColor: "#0e0e0c" }}
+      ref={sectionRef}
+      className="relative py-28 lg:py-36"
+      style={{ backgroundColor: "#050505" }}
     >
-      {/* Section header */}
+      {/* Section separator */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{ background: "linear-gradient(to right, transparent, rgba(201,168,76,0.2), transparent)" }}
+      />
+
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="flex items-center gap-5 mb-14">
-          <div className="h-px flex-1 max-w-[60px]" style={{ backgroundColor: "#fcc117" }} />
+        {/* Section header */}
+        <div className="flex items-center gap-5 mb-16 reveal">
+          <div className="h-px" style={{ width: 48, backgroundColor: "#C9A84C" }} />
           <span
-            className="text-xs tracking-[0.35em] font-bold"
-            style={{ color: "#fcc117" }}
+            style={{ color: "#C9A84C", fontSize: 10, letterSpacing: "0.4em", fontWeight: 700 }}
           >
-            VIDEO
+            FIELD DEMONSTRATION
           </span>
-          <div className="h-px flex-1" style={{ backgroundColor: "rgba(255,255,255,0.08)" }} />
+          <div className="h-px flex-1" style={{ backgroundColor: "#1a1a1a" }} />
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-12 items-start">
+        <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-center">
           {/* Left text */}
           <div>
             <h2
-              className="text-3xl md:text-4xl font-black text-white leading-tight tracking-tight mb-4"
-              style={{ fontFamily: "system-ui, sans-serif" }}
+              className="reveal font-black text-white leading-tight mb-6"
+              style={{
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                letterSpacing: "0.12em",
+                lineHeight: 1.1,
+              }}
             >
               SEE THE
               <br />
-              <span style={{ color: "#fcc117" }}>SYSTEM</span>
+              <span style={{ color: "#C9A84C" }}>SYSTEM</span>
               <br />
               IN ACTION
             </h2>
-            <p className="text-white/40 text-sm leading-relaxed tracking-wide">
-              Field-tested across multiple operational environments. Watch our systems perform
-              across visual, near-infrared, and thermal spectrums.
+            <p
+              className="reveal"
+              style={{
+                color: "rgba(255,255,255,0.35)",
+                fontSize: 13,
+                lineHeight: 1.8,
+                letterSpacing: "0.05em",
+              }}
+            >
+              Field-tested across multiple operational environments. Watch AMETRINE systems
+              perform across visual, near-infrared, thermal, and RADAR spectrums — in real combat conditions.
             </p>
           </div>
 
-          {/* Video player */}
-          <div>
-            {VIDEO_CONFIG.type === "placeholder" && (
+          {/* Video placeholder */}
+          <div className="reveal">
+            <div
+              className="relative w-full flex flex-col items-center justify-center"
+              style={{
+                aspectRatio: "16/9",
+                backgroundColor: "#0a0a0a",
+                border: "1px solid #1a1a1a",
+                overflow: "hidden",
+              }}
+            >
+              {/* Corner accents */}
+              {[
+                { top: 0, left: 0, borderTop: "1px solid #C9A84C", borderLeft: "1px solid #C9A84C" },
+                { top: 0, right: 0, borderTop: "1px solid #C9A84C", borderRight: "1px solid #C9A84C" },
+                { bottom: 0, left: 0, borderBottom: "1px solid #C9A84C", borderLeft: "1px solid #C9A84C" },
+                { bottom: 0, right: 0, borderBottom: "1px solid #C9A84C", borderRight: "1px solid #C9A84C" },
+              ].map((style, i) => (
+                <div
+                  key={i}
+                  className="absolute"
+                  style={{ width: 32, height: 32, ...style }}
+                />
+              ))}
+
+              {/* CLASSIFIED watermark */}
               <div
-                className="relative w-full aspect-video flex flex-col items-center justify-center border"
+                className="absolute pointer-events-none"
                 style={{
-                  backgroundColor: "#1a1a18",
-                  borderColor: "rgba(252,193,23,0.12)",
+                  color: "rgba(201,168,76,0.03)",
+                  fontSize: 80,
+                  fontWeight: 900,
+                  letterSpacing: "0.15em",
+                  transform: "rotate(-15deg)",
+                  userSelect: "none",
+                  whiteSpace: "nowrap",
                 }}
               >
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-8 h-8 border-t border-l" style={{ borderColor: "#fcc117" }} />
-                <div className="absolute top-0 right-0 w-8 h-8 border-t border-r" style={{ borderColor: "#fcc117" }} />
-                <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l" style={{ borderColor: "#fcc117" }} />
-                <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r" style={{ borderColor: "#fcc117" }} />
+                CLASSIFIED
+              </div>
 
-                {/* Play icon */}
-                <div
-                  className="w-16 h-16 rounded-full border-2 flex items-center justify-center mb-5"
-                  style={{ borderColor: "rgba(252,193,23,0.3)" }}
+              {/* Hexagonal play button */}
+              <div
+                className="relative z-10 flex flex-col items-center gap-5 cursor-pointer group"
+                style={{ padding: 20 }}
+              >
+                <svg
+                  width="88"
+                  height="88"
+                  viewBox="0 0 88 88"
+                  fill="none"
+                  className="transition-all duration-300 group-hover:scale-110"
                 >
-                  <svg
-                    className="w-6 h-6 ml-1"
-                    fill="#fcc117"
-                    fillOpacity="0.4"
-                    viewBox="0 0 24 24"
+                  <polygon
+                    points="44,4 82,24 82,64 44,84 6,64 6,24"
+                    fill="rgba(201,168,76,0.06)"
+                    stroke="rgba(201,168,76,0.5)"
+                    strokeWidth="1.5"
+                  />
+                  <polygon
+                    points="44,16 70,31 70,61 44,76 18,61 18,31"
+                    fill="rgba(201,168,76,0.04)"
+                    stroke="rgba(201,168,76,0.2)"
+                    strokeWidth="1"
+                  />
+                  <path d="M36 30 L62 44 L36 58 Z" fill="#C9A84C" fillOpacity="0.7" />
+                </svg>
+
+                <div className="text-center">
+                  <div
+                    style={{
+                      color: "rgba(201,168,76,0.5)",
+                      fontSize: 11,
+                      fontWeight: 700,
+                      letterSpacing: "0.3em",
+                    }}
                   >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
+                    VIDEO COMING SOON
+                  </div>
+                  <div
+                    style={{
+                      color: "rgba(255,255,255,0.2)",
+                      fontSize: 10,
+                      letterSpacing: "0.2em",
+                      marginTop: 4,
+                    }}
+                  >
+                    FIELD DEMONSTRATION — RESTRICTED
+                  </div>
                 </div>
-
-                <span
-                  className="text-sm font-bold tracking-[0.3em]"
-                  style={{ color: "rgba(252,193,23,0.4)" }}
-                >
-                  VIDEO COMING SOON
-                </span>
-                <span
-                  className="text-xs tracking-widest mt-2"
-                  style={{ color: "rgba(255,255,255,0.2)" }}
-                >
-                  FIELD DEMONSTRATION — RESTRICTED
-                </span>
               </div>
-            )}
-
-            {VIDEO_CONFIG.type === "local" && VIDEO_CONFIG.url && (
-              <div className="relative w-full aspect-video">
-                <video
-                  className="w-full h-full object-cover"
-                  controls
-                  preload="metadata"
-                  style={{ backgroundColor: "#1a1a18" }}
-                >
-                  <source src={VIDEO_CONFIG.url} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
-              </div>
-            )}
-
-            {VIDEO_CONFIG.type === "youtube" && VIDEO_CONFIG.url && (
-              <div className="relative w-full aspect-video">
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube.com/embed/${VIDEO_CONFIG.url}`}
-                  title="Ametrine Technologies"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            )}
+            </div>
           </div>
         </div>
       </div>

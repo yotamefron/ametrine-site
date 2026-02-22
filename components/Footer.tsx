@@ -5,164 +5,104 @@ export default function Footer() {
 
   return (
     <footer
-      id="contact"
       className="relative"
-      style={{ backgroundColor: "#0a0a09" }}
+      style={{ backgroundColor: "#030303" }}
     >
-      {/* Top border */}
-      <div className="h-px w-full" style={{ backgroundColor: "rgba(252,193,23,0.15)" }} />
+      {/* Gold separator line */}
+      <div
+        className="h-px w-full"
+        style={{ background: "linear-gradient(to right, transparent, #C9A84C60, transparent)" }}
+      />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
-          {/* Brand column */}
-          <div className="md:col-span-1">
-            <div className="flex items-center gap-3 mb-6">
-              <svg width="36" height="42" viewBox="0 0 36 42" fill="none">
-                <path
-                  d="M18 1.5L34.5 11V31L18 40.5L1.5 31V11L18 1.5Z"
-                  fill="none"
-                  stroke="#fcc117"
-                  strokeWidth="1.2"
-                />
-                <path
-                  d="M18 8L28 14V28L18 34L8 28V14L18 8Z"
-                  fill="#fcc117"
-                  fillOpacity="0.08"
-                  stroke="#fcc117"
-                  strokeWidth="0.5"
-                />
-                <text
-                  x="18"
-                  y="24"
-                  textAnchor="middle"
-                  fill="#fcc117"
-                  fontSize="6.5"
-                  fontWeight="700"
-                  letterSpacing="0.5"
-                  fontFamily="monospace"
-                >
-                  AMT
-                </text>
-              </svg>
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-14">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+          {/* Brand */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-4 mb-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/logo-icon.png"
+                alt="Ametrine"
+                style={{ width: 32, height: "auto" }}
+              />
               <span
-                className="text-white font-bold tracking-[0.25em] text-base"
-                style={{ fontFamily: "system-ui, sans-serif" }}
+                className="text-white font-bold"
+                style={{ fontSize: 15, letterSpacing: "0.3em" }}
               >
                 AMETRINE
               </span>
             </div>
             <p
-              className="text-xs leading-relaxed tracking-wide mb-6"
-              style={{ color: "rgba(255,255,255,0.35)" }}
+              style={{
+                color: "rgba(255,255,255,0.25)",
+                fontSize: 12,
+                letterSpacing: "0.08em",
+                lineHeight: 1.7,
+                maxWidth: 400,
+              }}
             >
-              Multispectral concealment solutions engineered for tactical superiority.
-              Stealth across all domains — visual, near-IR, thermal.
+              Stealth in All Domains.
+              <br />
+              Multispectral concealment engineered for tactical superiority — visual, near-IR, thermal, RADAR.
             </p>
-            <div className="flex items-center gap-3">
-              <div
-                className="text-[10px] tracking-[0.15em] px-2 py-1 border"
-                style={{ borderColor: "rgba(252,193,23,0.2)", color: "rgba(252,193,23,0.5)" }}
-              >
-                ISO 9001:2015
-              </div>
-              <div
-                className="text-[10px] tracking-[0.15em] px-2 py-1 border"
-                style={{ borderColor: "rgba(252,193,23,0.2)", color: "rgba(252,193,23,0.5)" }}
-              >
-                BERRY COMPLIANT
-              </div>
-            </div>
           </div>
 
-          {/* Navigation */}
+          {/* Quick links */}
           <div>
             <h4
-              className="text-[10px] font-bold tracking-[0.3em] mb-6"
-              style={{ color: "#fcc117" }}
+              style={{ color: "#C9A84C", fontSize: 10, letterSpacing: "0.3em", fontWeight: 700, marginBottom: 16 }}
             >
               CATALOG
             </h4>
-            <ul className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
               {[
                 { label: "Brochures", href: "#brochures" },
                 { label: "Patterns", href: "#patterns" },
                 { label: "Video", href: "#video" },
                 { label: "Contact", href: "#contact" },
               ].map((item) => (
-                <li key={item.label}>
-                  <button
-                    onClick={() =>
-                      document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" })
-                    }
-                    className="text-xs tracking-wide hover:text-[#fcc117] transition-colors duration-200"
-                    style={{ color: "rgba(255,255,255,0.4)" }}
-                  >
-                    {item.label}
-                  </button>
-                </li>
+                <button
+                  key={item.label}
+                  onClick={() =>
+                    document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" })
+                  }
+                  className="text-left nav-link"
+                  style={{ fontSize: 12 }}
+                >
+                  {item.label}
+                </button>
               ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4
-              className="text-[10px] font-bold tracking-[0.3em] mb-6"
-              style={{ color: "#fcc117" }}
-            >
-              CONTACT
-            </h4>
-            <div className="flex flex-col gap-4">
-              <div>
-                <div
-                  className="text-[10px] tracking-widest mb-1"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
-                >
-                  SALES INQUIRIES
-                </div>
-                <a
-                  href="mailto:sales@ametrine-tech.com"
-                  className="text-sm font-medium tracking-wide hover:text-[#fcc117] transition-colors duration-200"
-                  style={{ color: "rgba(255,255,255,0.7)" }}
-                >
-                  sales@ametrine-tech.com
-                </a>
-              </div>
-              <div>
-                <div
-                  className="text-[10px] tracking-widest mb-2"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
-                >
-                  CERTIFICATIONS
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    ISO 9001:2015 Certified
-                  </span>
-                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
-                    Berry Amendment Compliant
-                  </span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+          className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-12 pt-8"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
         >
-          <span
-            className="text-[10px] tracking-widest"
-            style={{ color: "rgba(255,255,255,0.2)" }}
-          >
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 10, letterSpacing: "0.18em" }}>
             © {currentYear} AMETRINE TECHNOLOGIES. ALL RIGHTS RESERVED.
           </span>
-          <span
-            className="text-[10px] tracking-widest"
-            style={{ color: "rgba(255,255,255,0.15)" }}
+          <a
+            href="mailto:sales@ametrine-tech.com"
+            style={{
+              color: "rgba(201,168,76,0.4)",
+              fontSize: 10,
+              letterSpacing: "0.15em",
+              textDecoration: "none",
+              transition: "color 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.color = "#C9A84C";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.color = "rgba(201,168,76,0.4)";
+            }}
           >
+            sales@ametrine-tech.com
+          </a>
+          <span style={{ color: "rgba(255,255,255,0.1)", fontSize: 10, letterSpacing: "0.15em" }}>
             CONFIDENTIAL — AUTHORIZED DISTRIBUTION ONLY
           </span>
         </div>
