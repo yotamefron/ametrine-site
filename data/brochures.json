@@ -1,0 +1,19 @@
+[
+  {"id":1,"title":"SURVIVAL BLANKET","description":"Ultra-lightweight multispectral concealment for single-operator missions.","category":"Blankets","filename":"survival_blanket_מוכן.pdf"},
+  {"id":2,"title":"WP SURVIVAL BLANKET","description":"Waterproof stealth concealment with blackout interior and terrain-matched exterior.","category":"Blankets","filename":"WP_SURVIVAL_BLANKET__NEW.pdf"},
+  {"id":3,"title":"3D SURVIVAL BLANKET","description":"Integrated 3D foliage layer for superior visual and aerial concealment.","category":"Blankets","filename":"3D_MULTI_NEW.pdf"},
+  {"id":4,"title":"WP SNIPER BLANKET","description":"Waterproof concealment with foliage netting for sniper hides.","category":"Blankets","filename":"WP_SNIPER.pdf"},
+  {"id":5,"title":"PONCHO SAHAR","description":"Compact multispectral overgarment for man-on-the-move operations.","category":"Overgarments","filename":"פונצו_סהר_סגור_סופי.pdf"},
+  {"id":6,"title":"PONCHO INBAR","description":"Water-repellent poncho for wet environments and high-humidity conditions.","category":"Overgarments","filename":"inbar_new_סגור.pdf"},
+  {"id":7,"title":"PONCHO SRV","description":"Ultra-lightweight 400g poncho for rapid deployment and dynamic missions.","category":"Overgarments","filename":"PONCHO_SRV.pdf"},
+  {"id":8,"title":"GAL SUIT","description":"Full-body multispectral suit for hands-free operation under surveillance.","category":"Overgarments","filename":"פונצו_גל_חדש_מוכן_תיקון.pdf"},
+  {"id":9,"title":"MAY SUIT","description":"Dual-sided two-piece suit with vented flap architecture.","category":"Overgarments","filename":"MAY_SUIT.pdf"},
+  {"id":10,"title":"SNIPER ASSAULT","description":"3D conformal system for sniper transitions and hasty firing positions. 550g.","category":"Overgarments","filename":"sniper_assault.pdf"},
+  {"id":11,"title":"MSSM COMBAT UNIFORM","description":"Four-piece body-worn MSSM system. Hemispheric concealment at every mission phase.","category":"Overgarments","filename":"MSSM_COMBAT_UNIFORM.pdf"},
+  {"id":12,"title":"ARCTIC OVERGARMENT KIT","description":"Full-body concealment for extreme cold and snow-dominated environments.","category":"Overgarments","filename":"arctic_kit_new_סגור.pdf"},
+  {"id":13,"title":"OPERATOR HIDE SITE","description":"Static concealment system with 360° observation and all-terrain stability.","category":"Hide Sites","filename":"OPERATOR_HIDE_SITE_NEW_סגור.pdf"},
+  {"id":14,"title":"OVERWATCH HIDE SITE","description":"Static concealment for reconnaissance, ATGM, and overwatch positions.","category":"Hide Sites","filename":"OVERWATCH_HIDE_SITE__ATGM_לשעבר__סגור.pdf"},
+  {"id":15,"title":"ARMORED PLATFORM HIDE SITE","description":"Rapid-deploy concealment for armored vehicles. Engine-running compatible.","category":"Hide Sites","filename":"ARMORD_PLATFORM_HIDE_SITE_NEW_מוכן.pdf"},
+  {"id":16,"title":"TACTICAL VEHICLE HIDE SITE","description":"9x12m concealment for tactical vehicles with full thermal management.","category":"Hide Sites","filename":"TACTICAL_VEHICLE_HIDE_SITE_חדש.pdf"},
+  {"id":17,"title":"WINDOW CONCEALMENT KIT","description":"Urban kit for window concealment. Covert observation, empty-room signature.","category":"Urban","filename":"Window_concealment_Kit__NEW.pdf"}
+]

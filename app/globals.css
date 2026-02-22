@@ -1,0 +1,69 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #fcc117;
+  --dark: #141412;
+  --darker: #0e0e0c;
+  --darkest: #0a0a09;
+  --card-bg: #1a1a18;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #141412;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #141412;
+}
+::-webkit-scrollbar-thumb {
+  background: #fcc11740;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fcc117;
+}
+
+/* Selection */
+::selection {
+  background-color: #fcc11730;
+  color: #fcc117;
+}
+
+/* Hero animate utility */
+.hero-animate {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.hero-animate.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Shake animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-8px); }
+  30%, 70% { transform: translateX(8px); }
+}
+.animate-shake {
+  animation: shake 0.6s ease-in-out;
+}
