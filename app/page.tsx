@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import PasswordGate from "@/components/PasswordGate";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import AboutSection from "@/components/AboutSection";
+import SignatureManagement from "@/components/SignatureManagement";
+import BrandDivider from "@/components/BrandDivider";
 import BrochureLibrary from "@/components/BrochureLibrary";
 import PatternsSection from "@/components/PatternsSection";
 import VideoSection from "@/components/VideoSection";
@@ -26,7 +29,7 @@ export default function Home() {
     return (
       <div
         className="fixed inset-0 flex items-center justify-center"
-        style={{ backgroundColor: "#080808" }}
+        style={{ backgroundColor: "#08080f" }}
       />
     );
   }
@@ -36,10 +39,13 @@ export default function Home() {
       {!unlocked && <PasswordGate onUnlock={handleUnlock} />}
 
       {unlocked && (
-        <div className="min-h-screen" style={{ backgroundColor: "#080808" }}>
+        <div className="min-h-screen" style={{ backgroundColor: "#08080f" }}>
           <Navbar />
           <main>
             <Hero />
+            <AboutSection />
+            <SignatureManagement />
+            <BrandDivider />
             <BrochureLibrary />
             <PatternsSection />
             <VideoSection />

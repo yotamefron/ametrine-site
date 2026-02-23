@@ -25,148 +25,88 @@ export default function VideoSection() {
     <section
       id="video"
       ref={sectionRef}
-      className="relative py-28 lg:py-36"
-      style={{ backgroundColor: "#050505" }}
+      className="relative py-20 lg:py-32"
+      style={{ backgroundColor: "#0a0a0f" }}
     >
-      {/* Section separator */}
+      {/* Top gradient divider */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(to right, transparent, rgba(201,168,76,0.2), transparent)" }}
+        style={{
+          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+        }}
       />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         {/* Section header */}
-        <div className="flex items-center gap-5 mb-16 reveal">
-          <div className="h-px" style={{ width: 48, backgroundColor: "#C9A84C" }} />
+        <div className="reveal flex items-center gap-4 mb-5">
+          <div
+            className="h-px w-10 shrink-0"
+            style={{ background: "linear-gradient(135deg, #E8650A, #6B3FA0)" }}
+          />
           <span
-            style={{ color: "#C9A84C", fontSize: 10, letterSpacing: "0.4em", fontWeight: 700 }}
+            style={{
+              color: "#E8650A",
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              fontWeight: 600,
+              textTransform: "uppercase",
+            }}
           >
-            FIELD DEMONSTRATION
+            CAPABILITY DEMONSTRATION
           </span>
-          <div className="h-px flex-1" style={{ backgroundColor: "#1a1a1a" }} />
+          <div
+            className="h-px flex-1"
+            style={{ backgroundColor: "rgba(240,240,245,0.06)" }}
+          />
         </div>
 
-        <div className="grid lg:grid-cols-[1fr_2fr] gap-16 items-center">
-          {/* Left text */}
-          <div>
-            <h2
-              className="reveal font-black text-white leading-tight mb-6"
-              style={{
-                fontSize: "clamp(2rem, 4vw, 3rem)",
-                letterSpacing: "0.12em",
-                lineHeight: 1.1,
-              }}
-            >
-              SEE THE
-              <br />
-              <span style={{ color: "#C9A84C" }}>SYSTEM</span>
-              <br />
-              IN ACTION
-            </h2>
-            <p
-              className="reveal"
-              style={{
-                color: "rgba(255,255,255,0.35)",
-                fontSize: 13,
-                lineHeight: 1.8,
-                letterSpacing: "0.05em",
-              }}
-            >
-              Field-tested across multiple operational environments. Watch AMETRINE systems
-              perform across visual, near-infrared, thermal, and RADAR spectrums — in real combat conditions.
-            </p>
-          </div>
+        <h2
+          className="reveal font-bold text-white mb-12"
+          style={{
+            fontFamily: "'Barlow Condensed', system-ui, sans-serif",
+            fontSize: "clamp(2rem, 4vw, 3rem)",
+            letterSpacing: "0.06em",
+            lineHeight: 1.2,
+          }}
+        >
+          SEE THE TECHNOLOGY
+        </h2>
 
-          {/* Video placeholder */}
-          <div className="reveal">
+        {/* Video — gradient border wrapper, max-w-4xl */}
+        <div className="reveal max-w-4xl mx-auto">
+          {/* Outer gradient border */}
+          <div
+            style={{
+              padding: 2,
+              background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+              borderRadius: 8,
+            }}
+          >
+            {/* Inner dark bg */}
             <div
-              className="relative w-full flex flex-col items-center justify-center"
               style={{
-                aspectRatio: "16/9",
-                backgroundColor: "#0a0a0a",
-                border: "1px solid #1a1a1a",
+                backgroundColor: "#0a0a0f",
+                borderRadius: 7,
                 overflow: "hidden",
               }}
             >
-              {/* Corner accents */}
-              {[
-                { top: 0, left: 0, borderTop: "1px solid #C9A84C", borderLeft: "1px solid #C9A84C" },
-                { top: 0, right: 0, borderTop: "1px solid #C9A84C", borderRight: "1px solid #C9A84C" },
-                { bottom: 0, left: 0, borderBottom: "1px solid #C9A84C", borderLeft: "1px solid #C9A84C" },
-                { bottom: 0, right: 0, borderBottom: "1px solid #C9A84C", borderRight: "1px solid #C9A84C" },
-              ].map((style, i) => (
-                <div
-                  key={i}
-                  className="absolute"
-                  style={{ width: 32, height: 32, ...style }}
+              {/* 16:9 ratio */}
+              <div
+                style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}
+              >
+                <iframe
+                  src="https://drive.google.com/file/d/17BL89_yvN7OfiGjOiTlYYn_gjWgbJc32/preview"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                  }}
+                  allow="autoplay"
+                  allowFullScreen
+                  title="Ametrine Capability Demonstration"
                 />
-              ))}
-
-              {/* CLASSIFIED watermark */}
-              <div
-                className="absolute pointer-events-none"
-                style={{
-                  color: "rgba(201,168,76,0.03)",
-                  fontSize: 80,
-                  fontWeight: 900,
-                  letterSpacing: "0.15em",
-                  transform: "rotate(-15deg)",
-                  userSelect: "none",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                CLASSIFIED
-              </div>
-
-              {/* Hexagonal play button */}
-              <div
-                className="relative z-10 flex flex-col items-center gap-5 cursor-pointer group"
-                style={{ padding: 20 }}
-              >
-                <svg
-                  width="88"
-                  height="88"
-                  viewBox="0 0 88 88"
-                  fill="none"
-                  className="transition-all duration-300 group-hover:scale-110"
-                >
-                  <polygon
-                    points="44,4 82,24 82,64 44,84 6,64 6,24"
-                    fill="rgba(201,168,76,0.06)"
-                    stroke="rgba(201,168,76,0.5)"
-                    strokeWidth="1.5"
-                  />
-                  <polygon
-                    points="44,16 70,31 70,61 44,76 18,61 18,31"
-                    fill="rgba(201,168,76,0.04)"
-                    stroke="rgba(201,168,76,0.2)"
-                    strokeWidth="1"
-                  />
-                  <path d="M36 30 L62 44 L36 58 Z" fill="#C9A84C" fillOpacity="0.7" />
-                </svg>
-
-                <div className="text-center">
-                  <div
-                    style={{
-                      color: "rgba(201,168,76,0.5)",
-                      fontSize: 11,
-                      fontWeight: 700,
-                      letterSpacing: "0.3em",
-                    }}
-                  >
-                    VIDEO COMING SOON
-                  </div>
-                  <div
-                    style={{
-                      color: "rgba(255,255,255,0.2)",
-                      fontSize: 10,
-                      letterSpacing: "0.2em",
-                      marginTop: 4,
-                    }}
-                  >
-                    FIELD DEMONSTRATION — RESTRICTED
-                  </div>
-                </div>
               </div>
             </div>
           </div>

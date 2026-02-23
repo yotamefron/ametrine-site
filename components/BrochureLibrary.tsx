@@ -22,15 +22,6 @@ const CATEGORY_MAP: Record<string, Category> = {
   Mobile: "MOBILE",
 };
 
-// Red color per category
-const CATEGORY_COLOR: Record<string, string> = {
-  OVERGARMENTS: "#CC0000",
-  BLANKETS: "#CC0000",
-  "HIDE SITES": "#CC0000",
-  URBAN: "#CC0000",
-  MOBILE: "#CC0000",
-};
-
 interface Brochure {
   id: number;
   title: string;
@@ -39,20 +30,152 @@ interface Brochure {
   driveUrl: string;
 }
 
+function toImageSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 function DownloadIcon() {
   return (
-    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+    <svg
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+      />
     </svg>
   );
 }
 
 function EyeIcon() {
   return (
-    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+    <svg
+      width="14"
+      height="14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+      />
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+      />
     </svg>
+  );
+}
+
+function ProductImage({ title }: { title: string }) {
+  const [errored, setErrored] = useState(false);
+  const slug = toImageSlug(title);
+
+  if (errored) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: 200,
+          backgroundColor: "#1a1a2e",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 10,
+          flexShrink: 0,
+        }}
+      >
+        {/* Crosshair SVG */}
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          aria-label="Image placeholder"
+        >
+          <circle cx="16" cy="16" r="11" stroke="#555577" strokeWidth="1.2" />
+          <circle cx="16" cy="16" r="3" stroke="#555577" strokeWidth="1.2" />
+          <line
+            x1="16"
+            y1="2"
+            x2="16"
+            y2="8"
+            stroke="#555577"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          <line
+            x1="16"
+            y1="24"
+            x2="16"
+            y2="30"
+            stroke="#555577"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          <line
+            x1="2"
+            y1="16"
+            x2="8"
+            y2="16"
+            stroke="#555577"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+          <line
+            x1="24"
+            y1="16"
+            x2="30"
+            y2="16"
+            stroke="#555577"
+            strokeWidth="1.2"
+            strokeLinecap="round"
+          />
+        </svg>
+        <span
+          style={{
+            color: "#555577",
+            fontSize: 12,
+            lineHeight: 1.4,
+            textAlign: "center",
+          }}
+        >
+          Image Coming Soon
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`/images/${slug}.png`}
+      alt={`${title} product image`}
+      onError={() => setErrored(true)}
+      style={{
+        width: "100%",
+        height: 200,
+        objectFit: "cover",
+        display: "block",
+        flexShrink: 0,
+      }}
+    />
   );
 }
 
@@ -72,121 +195,58 @@ function BrochureCard({
   const handleDownload = () => {
     const fileId = brochure.driveUrl.match(/\/d\/(.+?)\/view/)?.[1];
     if (fileId) {
-      window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, "_blank");
+      window.open(
+        `https://drive.google.com/uc?export=download&id=${fileId}`,
+        "_blank"
+      );
     }
   };
 
   return (
     <div
       ref={cardRef}
-      className="reveal"
+      className="reveal flex flex-col"
       style={{ transitionDelay: `${delay}ms` }}
     >
+      {/* Gradient top border */}
       <div
-        className="relative flex flex-col"
         style={{
-          backgroundColor: "#0d0d0d",
-          border: "1px solid #1a1a1a",
-          transform: hovered ? "translateY(-6px)" : "translateY(0)",
-          boxShadow: hovered ? "0 20px 40px rgba(201,168,76,0.12)" : "none",
+          height: 3,
+          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+          flexShrink: 0,
+        }}
+      />
+
+      {/* Card body */}
+      <div
+        className="flex flex-col flex-1"
+        style={{
+          backgroundColor: "#111118",
+          transform: hovered ? "translateY(-4px)" : "translateY(0)",
+          boxShadow: hovered ? "0 0 28px rgba(232,101,10,0.12)" : "none",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          cursor: "default",
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Gold left accent bar */}
-        <div
-          className="absolute left-0 top-0 bottom-0"
-          style={{ width: 3, backgroundColor: "#C9A84C", zIndex: 1 }}
-        />
+        {/* Product image */}
+        <ProductImage title={brochure.title} />
 
-        {/* Document cover area — 16:9 */}
-        <div
-          className="relative flex flex-col items-center justify-center"
-          style={{
-            aspectRatio: "16/9",
-            marginLeft: 3,
-            backgroundColor: "#090909",
-            backgroundImage:
-              "repeating-linear-gradient(-45deg, rgba(201,168,76,0.05) 0, rgba(201,168,76,0.05) 1px, transparent 0, transparent 50%)",
-            backgroundSize: "18px 18px",
-            overflow: "hidden",
-          }}
-        >
-          {/* Corner accents */}
-          <div
-            className="absolute top-0 left-0 w-6 h-6"
-            style={{ borderTop: "1px solid rgba(201,168,76,0.3)", borderLeft: "1px solid rgba(201,168,76,0.3)" }}
-          />
-          <div
-            className="absolute top-0 right-0 w-6 h-6"
-            style={{ borderTop: "1px solid rgba(201,168,76,0.3)", borderRight: "1px solid rgba(201,168,76,0.3)" }}
-          />
-          <div
-            className="absolute bottom-0 left-0 w-6 h-6"
-            style={{ borderBottom: "1px solid rgba(201,168,76,0.3)", borderLeft: "1px solid rgba(201,168,76,0.3)" }}
-          />
-          <div
-            className="absolute bottom-0 right-0 w-6 h-6"
-            style={{ borderBottom: "1px solid rgba(201,168,76,0.3)", borderRight: "1px solid rgba(201,168,76,0.3)" }}
-          />
-
-          {/* Product name */}
-          <div className="text-center px-4">
-            <div
-              className="font-black leading-tight mb-2"
-              style={{
-                color: "#C9A84C",
-                fontSize: "clamp(0.75rem, 2vw, 1.05rem)",
-                letterSpacing: "0.08em",
-              }}
-            >
-              {brochure.title}
-            </div>
-            <div
-              style={{
-                color: CATEGORY_COLOR[catLabel] ?? "#CC0000",
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: "0.25em",
-                fontVariant: "small-caps",
-              }}
-            >
-              {catLabel}
-            </div>
-          </div>
-
-          {/* CONFIDENTIAL watermark */}
-          <div
-            className="absolute pointer-events-none"
-            style={{
-              color: "rgba(201,168,76,0.04)",
-              fontSize: 32,
-              fontWeight: 900,
-              letterSpacing: "0.15em",
-              transform: "rotate(-20deg)",
-              userSelect: "none",
-            }}
-          >
-            CONFIDENTIAL
-          </div>
-        </div>
-
-        {/* Content area */}
-        <div className="flex flex-col flex-1 p-5" style={{ marginLeft: 3 }}>
+        {/* Content */}
+        <div className="flex flex-col flex-1 p-5">
           {/* Category badge */}
           <div className="mb-3">
             <span
               style={{
                 display: "inline-block",
-                color: CATEGORY_COLOR[catLabel] ?? "#CC0000",
-                backgroundColor: "rgba(204,0,0,0.08)",
-                border: "1px solid rgba(204,0,0,0.2)",
-                fontSize: 9,
-                fontWeight: 700,
-                letterSpacing: "0.2em",
+                color: "#E8650A",
+                backgroundColor: "rgba(232,101,10,0.08)",
+                border: "1px solid rgba(232,101,10,0.2)",
+                fontSize: 10,
+                fontWeight: 600,
+                letterSpacing: "0.12em",
                 padding: "3px 8px",
+                textTransform: "uppercase",
               }}
             >
               {catLabel}
@@ -195,12 +255,8 @@ function BrochureCard({
 
           {/* Title */}
           <h3
-            className="font-bold mb-2 leading-snug"
-            style={{
-              color: "#C9A84C",
-              fontSize: 13,
-              letterSpacing: "0.08em",
-            }}
+            className="font-semibold text-white mb-2"
+            style={{ fontSize: 16, lineHeight: 1.3 }}
           >
             {brochure.title}
           </h3>
@@ -209,37 +265,39 @@ function BrochureCard({
           <p
             className="flex-1 mb-5"
             style={{
-              color: "rgba(255,255,255,0.38)",
-              fontSize: 12,
-              lineHeight: 1.6,
+              color: "#8888aa",
+              fontSize: 14,
+              lineHeight: 1.7,
             }}
           >
             {brochure.description}
           </p>
 
-          {/* Actions */}
-          <div className="flex gap-2 mt-auto">
+          {/* Actions — side by side on sm+, stacked on mobile */}
+          <div className="flex flex-col sm:flex-row gap-3 mt-auto">
             <button
               onClick={handleView}
               className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
               style={{
-                border: "1px solid rgba(201,168,76,0.3)",
+                border: "1px solid rgba(232,101,10,0.3)",
                 backgroundColor: "transparent",
-                color: "rgba(201,168,76,0.7)",
-                padding: "9px 0",
-                fontSize: 10,
+                color: "rgba(232,101,10,0.85)",
+                padding: "10px 16px",
+                fontSize: 11,
                 letterSpacing: "0.15em",
                 cursor: "pointer",
+                minHeight: 44,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#C9A84C";
-                (e.currentTarget as HTMLButtonElement).style.color = "#080808";
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "#C9A84C";
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#E8650A";
+                (e.currentTarget as HTMLButtonElement).style.color = "#fff";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "#E8650A";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
-                (e.currentTarget as HTMLButtonElement).style.color = "rgba(201,168,76,0.7)";
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.3)";
+                (e.currentTarget as HTMLButtonElement).style.color = "rgba(232,101,10,0.85)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor =
+                  "rgba(232,101,10,0.3)";
               }}
             >
               <EyeIcon />
@@ -250,19 +308,22 @@ function BrochureCard({
               onClick={handleDownload}
               className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
               style={{
-                border: "1px solid #1a1a1a",
-                backgroundColor: "#111111",
-                color: "#C9A84C",
-                padding: "9px 0",
-                fontSize: 10,
+                border: "1px solid rgba(232,101,10,0.15)",
+                backgroundColor: "rgba(232,101,10,0.08)",
+                color: "#E8650A",
+                padding: "10px 16px",
+                fontSize: 11,
                 letterSpacing: "0.15em",
                 cursor: "pointer",
+                minHeight: 44,
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#1a1a1a";
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                  "rgba(232,101,10,0.16)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#111111";
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
+                  "rgba(232,101,10,0.08)";
               }}
             >
               <DownloadIcon />
@@ -308,23 +369,12 @@ export default function BrochureLibrary() {
   }, []);
 
   useEffect(() => {
-    // Section reveal
-    const sectionObs = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) sectionObs.disconnect();
-      },
-      { threshold: 0.05 }
-    );
-    if (sectionRef.current) sectionObs.observe(sectionRef.current);
-
     return () => {
-      sectionObs.disconnect();
       observerRef.current?.disconnect();
     };
   }, []);
 
   useEffect(() => {
-    // Short delay to let DOM update after filter change
     const t = setTimeout(setupObserver, 50);
     return () => clearTimeout(t);
   }, [filtered, setupObserver]);
@@ -333,48 +383,62 @@ export default function BrochureLibrary() {
     <section
       id="brochures"
       ref={sectionRef}
-      className="relative py-28 lg:py-36"
-      style={{ backgroundColor: "#080808" }}
+      className="relative py-20 lg:py-32"
+      style={{ backgroundColor: "#08080f" }}
     >
+      {/* Top gradient divider */}
+      <div
+        className="absolute top-0 left-0 right-0 h-px"
+        style={{
+          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+        }}
+      />
+
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
         {/* Section header */}
-        <div className="flex items-center gap-5 mb-4">
-          <div className="h-px" style={{ width: 48, backgroundColor: "#C9A84C" }} />
+        <div className="flex items-center gap-4 mb-5">
+          <div
+            className="h-px w-10 shrink-0"
+            style={{ background: "linear-gradient(135deg, #E8650A, #6B3FA0)" }}
+          />
           <span
             style={{
-              color: "#C9A84C",
-              fontSize: 10,
-              letterSpacing: "0.4em",
-              fontWeight: 700,
+              color: "#E8650A",
+              fontSize: 11,
+              letterSpacing: "0.14em",
+              fontWeight: 600,
+              textTransform: "uppercase",
             }}
           >
             PRODUCT CATALOG
           </span>
-          <div className="h-px flex-1" style={{ backgroundColor: "#1a1a1a" }} />
+          <div
+            className="h-px flex-1"
+            style={{ backgroundColor: "rgba(240,240,245,0.06)" }}
+          />
         </div>
 
-        <div className="mb-5">
-          <h2
-            className="font-black text-white"
-            style={{
-              fontSize: "clamp(2rem, 5vw, 3.5rem)",
-              letterSpacing: "0.15em",
-              lineHeight: 1.1,
-            }}
-          >
-            AUTHORIZED TECHNICAL DATASHEETS
-          </h2>
-        </div>
-
-        <p
-          className="mb-14"
+        <h2
+          className="font-bold text-white mb-3"
           style={{
-            color: "rgba(255,255,255,0.35)",
-            fontSize: 13,
-            letterSpacing: "0.1em",
+            fontFamily: "'Barlow Condensed', system-ui, sans-serif",
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            letterSpacing: "0.08em",
+            lineHeight: 1.15,
           }}
         >
-          Select a product to view or download the classified technical datasheet.
+          BROCHURE LIBRARY
+        </h2>
+
+        <p
+          className="mb-12"
+          style={{
+            color: "#8888aa",
+            fontSize: 15,
+            lineHeight: 1.7,
+          }}
+        >
+          Select a product to view or download the technical brochure.
         </p>
 
         {/* Filter bar */}
@@ -389,24 +453,33 @@ export default function BrochureLibrary() {
                   padding: "8px 20px",
                   fontSize: 10,
                   fontWeight: 700,
-                  letterSpacing: "0.2em",
+                  letterSpacing: "0.18em",
                   cursor: "pointer",
-                  border: active ? "1px solid #C9A84C" : "1px solid rgba(255,255,255,0.1)",
-                  backgroundColor: active ? "#C9A84C" : "transparent",
-                  color: active ? "#080808" : "rgba(255,255,255,0.45)",
+                  border: active
+                    ? "1px solid transparent"
+                    : "1px solid rgba(240,240,245,0.12)",
+                  background: active
+                    ? "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)"
+                    : "transparent",
+                  color: active ? "#fff" : "rgba(240,240,245,0.45)",
                   borderRadius: 999,
                   transition: "all 0.2s ease",
+                  minHeight: 36,
                 }}
                 onMouseEnter={(e) => {
                   if (!active) {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(201,168,76,0.4)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "rgba(201,168,76,0.8)";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor =
+                      "rgba(232,101,10,0.45)";
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      "rgba(232,101,10,0.9)";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!active) {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.1)";
-                    (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.45)";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor =
+                      "rgba(240,240,245,0.12)";
+                    (e.currentTarget as HTMLButtonElement).style.color =
+                      "rgba(240,240,245,0.45)";
                   }
                 }}
               >
@@ -416,11 +489,7 @@ export default function BrochureLibrary() {
           })}
           <span
             className="ml-auto"
-            style={{
-              color: "rgba(255,255,255,0.2)",
-              fontSize: 11,
-              letterSpacing: "0.15em",
-            }}
+            style={{ color: "#8888aa", fontSize: 11, letterSpacing: "0.15em" }}
           >
             {filtered.length} ITEMS
           </span>
@@ -442,7 +511,9 @@ export default function BrochureLibrary() {
 
         {filtered.length === 0 && (
           <div className="text-center py-24">
-            <span style={{ color: "rgba(255,255,255,0.15)", fontSize: 12, letterSpacing: "0.3em" }}>
+            <span
+              style={{ color: "#8888aa", fontSize: 12, letterSpacing: "0.3em" }}
+            >
               NO ITEMS IN THIS CATEGORY
             </span>
           </div>

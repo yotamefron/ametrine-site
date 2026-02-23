@@ -4,14 +4,14 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer
-      className="relative"
-      style={{ backgroundColor: "#030303" }}
-    >
-      {/* Gold separator line */}
+    <footer className="relative" style={{ backgroundColor: "#08080f" }}>
+      {/* Gradient separator line */}
       <div
         className="h-px w-full"
-        style={{ background: "linear-gradient(to right, transparent, #C9A84C60, transparent)" }}
+        style={{
+          background:
+            "linear-gradient(135deg, transparent, rgba(232,101,10,0.5), rgba(107,63,160,0.4), transparent)",
+        }}
       />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-14">
@@ -22,7 +22,7 @@ export default function Footer() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/logo-icon.png"
-                alt="Ametrine"
+                alt="Ametrine logo"
                 style={{ width: 32, height: "auto" }}
               />
               <span
@@ -34,23 +34,29 @@ export default function Footer() {
             </div>
             <p
               style={{
-                color: "rgba(255,255,255,0.25)",
-                fontSize: 12,
-                letterSpacing: "0.08em",
+                color: "#8888aa",
+                fontSize: 13,
+                letterSpacing: "0.04em",
                 lineHeight: 1.7,
                 maxWidth: 400,
               }}
             >
-              Stealth in All Domains.
-              <br />
-              Multispectral concealment engineered for tactical superiority — visual, near-IR, thermal, RADAR.
+              Multispectral concealment engineered for the modern battlefield — visual,
+              near-IR, thermal, and radar signature management across all domains.
             </p>
           </div>
 
           {/* Quick links */}
           <div>
             <h4
-              style={{ color: "#C9A84C", fontSize: 10, letterSpacing: "0.3em", fontWeight: 700, marginBottom: 16 }}
+              style={{
+                color: "#E8650A",
+                fontSize: 10,
+                letterSpacing: "0.3em",
+                fontWeight: 700,
+                marginBottom: 16,
+                textTransform: "uppercase",
+              }}
             >
               CATALOG
             </h4>
@@ -64,7 +70,9 @@ export default function Footer() {
                 <button
                   key={item.label}
                   onClick={() =>
-                    document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" })
+                    document
+                      .querySelector(item.href)
+                      ?.scrollIntoView({ behavior: "smooth" })
                   }
                   className="text-left nav-link"
                   style={{ fontSize: 12 }}
@@ -79,32 +87,35 @@ export default function Footer() {
         {/* Bottom bar */}
         <div
           className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-12 pt-8"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+          style={{ borderTop: "1px solid rgba(240,240,245,0.05)" }}
         >
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 10, letterSpacing: "0.18em" }}>
+          <span
+            style={{
+              color: "rgba(240,240,245,0.18)",
+              fontSize: 10,
+              letterSpacing: "0.18em",
+            }}
+          >
             © {currentYear} AMETRINE TECHNOLOGIES. ALL RIGHTS RESERVED.
           </span>
           <a
             href="mailto:sales@ametrine-tech.com"
             style={{
-              color: "rgba(201,168,76,0.4)",
+              color: "rgba(232,101,10,0.4)",
               fontSize: 10,
               letterSpacing: "0.15em",
               textDecoration: "none",
               transition: "color 0.2s ease",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "#C9A84C";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#E8650A";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "rgba(201,168,76,0.4)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "rgba(232,101,10,0.4)";
             }}
           >
             sales@ametrine-tech.com
           </a>
-          <span style={{ color: "rgba(255,255,255,0.1)", fontSize: 10, letterSpacing: "0.15em" }}>
-            CONFIDENTIAL — AUTHORIZED DISTRIBUTION ONLY
-          </span>
         </div>
       </div>
     </footer>

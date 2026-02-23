@@ -30,9 +30,9 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-40 transition-all duration-400"
       style={{
         height: 72,
-        backgroundColor: scrolled ? "rgba(8,8,8,0.96)" : "#080808",
+        backgroundColor: scrolled ? "rgba(8,8,15,0.96)" : "#08080f",
         borderBottom: scrolled
-          ? "1px solid rgba(201,168,76,0.18)"
+          ? "1px solid rgba(232,101,10,0.18)"
           : "1px solid transparent",
         backdropFilter: scrolled ? "blur(16px)" : "none",
       }}
@@ -84,7 +84,7 @@ export default function Navbar() {
               className="block h-px transition-all duration-300"
               style={{
                 width: 22,
-                backgroundColor: "#C9A84C",
+                backgroundColor: "#E8650A",
                 transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
               }}
             />
@@ -92,7 +92,7 @@ export default function Navbar() {
               className="block h-px transition-all duration-300"
               style={{
                 width: 22,
-                backgroundColor: "#C9A84C",
+                backgroundColor: "#E8650A",
                 opacity: menuOpen ? 0 : 1,
               }}
             />
@@ -100,7 +100,7 @@ export default function Navbar() {
               className="block h-px transition-all duration-300"
               style={{
                 width: 22,
-                backgroundColor: "#C9A84C",
+                backgroundColor: "#E8650A",
                 transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none",
               }}
             />
@@ -113,8 +113,8 @@ export default function Navbar() {
         className="md:hidden overflow-hidden transition-all duration-300"
         style={{
           maxHeight: menuOpen ? 280 : 0,
-          backgroundColor: "#080808",
-          borderTop: menuOpen ? "1px solid rgba(201,168,76,0.12)" : "none",
+          backgroundColor: "#08080f",
+          borderTop: menuOpen ? "1px solid rgba(232,101,10,0.12)" : "none",
         }}
       >
         <div className="flex flex-col px-6 py-6 gap-5">
