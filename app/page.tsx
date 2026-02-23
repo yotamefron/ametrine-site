@@ -41,8 +41,15 @@ export default function Home() {
         <div className="min-h-screen" style={{ backgroundColor: "#08080f" }}>
           <Navbar />
           <main>
-            <VideoSection />
-            <Hero />
+            {/*
+              Mobile: Hero first (text loads before video), Video below.
+              Desktop: Video first (at top with navbar clearance), Hero below.
+              flex-col-reverse reverses the visual order on mobile only.
+            */}
+            <div className="flex flex-col-reverse md:flex-col">
+              <VideoSection />
+              <Hero />
+            </div>
             <SignatureManagement />
             <BrandDivider />
             <BrochureLibrary />

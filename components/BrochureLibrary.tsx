@@ -16,15 +16,28 @@ const CATEGORY_MAP: Record<string, Category> = {
   Mobile: "MOBILE",
 };
 
-// Exact filename mappings for images in /public/images/products/
-// Filenames matched from: ls public/images/products/
-// Found: GAL SUIT.png, Flint Platform on the move.png,
-//        ARMORD PLATFORM HIDE SITE.png, WP SURVIVAL BLANKET.png
+// Image filename → product title mapping.
+// All files are in /public/images/products/
+// Most match title + ".png"; exceptions noted with comments.
 const IMAGE_MAP: Record<string, string> = {
-  "GAL SUIT": "GAL SUIT.png",
-  "FLINT \u2014 PLATFORM ON THE MOVE": "Flint Platform on the move.png",
-  "ARMORED PLATFORM HIDE SITE": "ARMORD PLATFORM HIDE SITE.png",
-  "WP SURVIVAL BLANKET": "WP SURVIVAL BLANKET.png",
+  "3D SURVIVAL BLANKET":           "3D SURVIVAL BLANKET.png",
+  "WP SURVIVAL BLANKET":           "WP SURVIVAL BLANKET.png",
+  "ARCTIC OVERGARMENT KIT":        "ARCTIC OVERGARMENT KIT.png",
+  "ARMORED PLATFORM HIDE SITE":    "ARMORD PLATFORM HIDE SITE.png",   // filename typo: ARMORD
+  "FLINT \u2014 PLATFORM ON THE MOVE": "Flint Platform on the move.png", // different casing
+  "GAL SUIT":                      "GAL SUIT.png",
+  "MAY SUIT":                      "MAY SUIT.png",
+  "MSSM COMBAT UNIFORM":           "MSSM COMBAT UNIFORM.png",
+  "OPERATOR HIDE SITE":            "OPERATORS HIDE SITE.png",          // filename has extra S
+  "OVERWATCH HIDE SITE":           "OVERWATCH HIDE SITE.png",
+  "PONCHO INBAR":                  "PONCHO INBAR.png",
+  "PONCHO SAHAR":                  "PONCHO SAHAR.png",
+  "PONCHO SRV":                    "PONCHO SRV.png",
+  "SNIPER ASSAULT":                "SNIPER ASSAULT.png",
+  "SURVIVAL BLANKET":              "SURVIVAL BLANKET.png",
+  "TACTICAL VEHICLE HIDE SITE":    "TACTICAL VEHICLE HIDE SITE.png",
+  "WINDOW CONCEALMENT KIT":        "WINDOW CONCEALMENT KIT.png",
+  "WP SNIPER BLANKET":             "WP SNIPER BLANKET.png",
 };
 
 interface Brochure {
@@ -85,7 +98,6 @@ function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
   const [errored, setErrored] = useState(false);
   const filename = IMAGE_MAP[title];
 
-  // No image mapped or load error → show placeholder
   if (!filename || errored) {
     return (
       <div className="relative w-full aspect-video overflow-hidden" style={{ flexShrink: 0, backgroundColor: "#1a1a2e" }}>

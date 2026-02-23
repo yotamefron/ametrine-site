@@ -43,11 +43,14 @@ export default function Hero() {
         }}
       />
 
-      {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 pt-8 pb-8 md:pt-16 md:pb-24 text-center">
+      {/* Mobile navbar spacer — on desktop VideoSection handles this */}
+      <div className="h-[72px] flex-shrink-0 md:hidden" />
+
+      {/* Main content — space-y-4 mobile, space-y-6 desktop */}
+      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 pt-6 pb-8 md:pt-16 md:pb-24 text-center space-y-4 md:space-y-6">
 
         {/* Logo */}
-        <div ref={setRef(0)} className="hero-el mb-8">
+        <div ref={setRef(0)} className="hero-el">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo-white.png"
@@ -57,7 +60,7 @@ export default function Hero() {
         </div>
 
         {/* Eyebrow */}
-        <div ref={setRef(1)} className="hero-el flex items-center justify-center gap-4 mb-8">
+        <div ref={setRef(1)} className="hero-el flex items-center justify-center gap-4">
           <div className="h-px w-8" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
           <span style={{ color: "#FF6B00", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600, textTransform: "uppercase" }}>
             Multispectral Signature Management
@@ -68,7 +71,7 @@ export default function Hero() {
         {/* Headline — gradient text */}
         <h1
           ref={setRef(2)}
-          className="hero-el font-black leading-none mb-5"
+          className="hero-el font-black leading-none"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
             fontSize: "clamp(3rem, 11vw, 7.5rem)",
@@ -86,7 +89,7 @@ export default function Hero() {
         {/* Catalog subtitle */}
         <p
           ref={setRef(3)}
-          className="hero-el mb-4"
+          className="hero-el"
           style={{
             color: "#FF6B00",
             fontSize: "clamp(0.65rem, 1.4vw, 0.8rem)",
@@ -102,7 +105,7 @@ export default function Hero() {
         {/* CTA */}
         <div
           ref={setRef(4)}
-          className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
+          className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <button
             onClick={() => document.getElementById("brochures")?.scrollIntoView({ behavior: "smooth" })}
