@@ -2,9 +2,23 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const VIDEO_CONFIG = {
+  type: "youtube" as const,
+  url: "https://youtu.be/8mK50pqrJq0",
+};
+
+function getEmbedUrl(): string {
+  if (VIDEO_CONFIG.type === "youtube") {
+    const id = VIDEO_CONFIG.url.match(/(?:youtu\.be\/|v=)([^&?/]+)/)?.[1] ?? "";
+    return `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&rel=0`;
+  }
+  return VIDEO_CONFIG.url;
+}
+
 export default function VideoSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const embedUrl = getEmbedUrl();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -99,9 +113,9 @@ export default function VideoSection() {
                 )}
 
                 <iframe
-                  src="https://drive.google.com/file/d/17BL89_yvN7OfiGjOiTlYYn_gjWgbJc32/preview?autoplay=1"
+                  src={embedUrl}
                   style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                  allow="autoplay; fullscreen"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
                   allowFullScreen
                   loading="lazy"
                   title="Ametrine Capability Demonstration"
