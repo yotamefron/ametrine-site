@@ -1,8 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --orange: #E8650A;
-  --purple: #6B3FA0;
+  --gold: #FFD700;
+  --orange: #FF6B00;
+  --purple: #7B2FBE;
+  --gradient: linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE);
   --bg-page: #08080f;
   --bg-card: #111118;
   --bg-alt: #0d0d16;
@@ -34,11 +36,11 @@ body {
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #08080f; }
-::-webkit-scrollbar-thumb { background: rgba(232,101,10,0.35); border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #E8650A; }
+::-webkit-scrollbar-thumb { background: rgba(255,107,0,0.4); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #FF6B00; }
 
 /* Selection */
-::selection { background-color: rgba(232,101,10,0.2); color: #E8650A; }
+::selection { background-color: rgba(255,215,0,0.2); color: #FFD700; }
 
 /* ── Keyframes ─────────────────────────────────────────────── */
 
@@ -93,7 +95,7 @@ body {
 
 .typing-cursor {
   animation: blink 0.8s step-end infinite;
-  color: #E8650A;
+  color: #FFD700;
 }
 
 .animate-shake {
@@ -132,11 +134,11 @@ body {
   left: 0;
   width: 0;
   height: 1px;
-  background: linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%);
+  background: linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE);
   transition: width 0.25s ease;
 }
 .nav-link:hover {
-  color: #E8650A;
+  color: #FFD700;
 }
 .nav-link:hover::after {
   width: 100%;

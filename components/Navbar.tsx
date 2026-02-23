@@ -32,7 +32,7 @@ export default function Navbar() {
         height: 72,
         backgroundColor: scrolled ? "rgba(8,8,15,0.96)" : "#08080f",
         borderBottom: scrolled
-          ? "1px solid rgba(232,101,10,0.18)"
+          ? "1px solid rgba(255,107,0,0.18)"
           : "1px solid transparent",
         backdropFilter: scrolled ? "blur(16px)" : "none",
       }}
@@ -84,7 +84,7 @@ export default function Navbar() {
               className="block h-px transition-all duration-300"
               style={{
                 width: 22,
-                backgroundColor: "#E8650A",
+                backgroundColor: "#FF6B00",
                 transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
               }}
             />
@@ -92,7 +92,7 @@ export default function Navbar() {
               className="block h-px transition-all duration-300"
               style={{
                 width: 22,
-                backgroundColor: "#E8650A",
+                backgroundColor: "#FF6B00",
                 opacity: menuOpen ? 0 : 1,
               }}
             />
@@ -100,7 +100,7 @@ export default function Navbar() {
               className="block h-px transition-all duration-300"
               style={{
                 width: 22,
-                backgroundColor: "#E8650A",
+                backgroundColor: "#FF6B00",
                 transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none",
               }}
             />
@@ -114,7 +114,7 @@ export default function Navbar() {
         style={{
           maxHeight: menuOpen ? 280 : 0,
           backgroundColor: "#08080f",
-          borderTop: menuOpen ? "1px solid rgba(232,101,10,0.12)" : "none",
+          borderTop: menuOpen ? "1px solid rgba(255,107,0,0.12)" : "none",
         }}
       >
         <div className="flex flex-col px-6 py-6 gap-5">

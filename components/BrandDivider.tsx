@@ -6,12 +6,12 @@ export default function BrandDivider() {
       className="relative py-20 lg:py-28 overflow-hidden"
       style={{ backgroundColor: "#08080f" }}
     >
-      {/* 6% orange-purple gradient overlay */}
+      {/* 6% gold-purple gradient overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(135deg, rgba(232,101,10,0.06) 0%, rgba(107,63,160,0.06) 100%)",
+            "linear-gradient(135deg, rgba(255,215,0,0.06) 0%, rgba(123,47,190,0.06) 100%)",
         }}
       />
 
@@ -19,7 +19,7 @@ export default function BrandDivider() {
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{
-          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+          background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
         }}
       />
 
@@ -27,7 +27,7 @@ export default function BrandDivider() {
       <div
         className="absolute bottom-0 left-0 right-0 h-px"
         style={{
-          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+          background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
         }}
       />
 

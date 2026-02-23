@@ -36,7 +36,7 @@ export default function PatternsSection() {
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{
-          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+          background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
         }}
       />
 
@@ -45,11 +45,11 @@ export default function PatternsSection() {
         <div className="reveal flex items-center gap-4 mb-5">
           <div
             className="h-px w-10 shrink-0"
-            style={{ background: "linear-gradient(135deg, #E8650A, #6B3FA0)" }}
+            style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }}
           />
           <span
             style={{
-              color: "#E8650A",
+              color: "#FF6B00",
               fontSize: 11,
               letterSpacing: "0.14em",
               fontWeight: 600,
@@ -65,12 +65,16 @@ export default function PatternsSection() {
         </div>
 
         <h2
-          className="reveal font-bold text-white mb-3"
+          className="reveal font-bold mb-3"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
             letterSpacing: "0.08em",
             lineHeight: 1.15,
+            background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
           }}
         >
           PATTERN CATALOG
@@ -87,9 +91,9 @@ export default function PatternsSection() {
           className="reveal relative flex flex-col lg:flex-row"
           style={{
             backgroundColor: "#111118",
-            border: "1px solid rgba(232,101,10,0.1)",
+            border: "1px solid rgba(255,107,0,0.1)",
             transform: hovered ? "translateY(-4px)" : "translateY(0)",
-            boxShadow: hovered ? "0 0 32px rgba(232,101,10,0.1)" : "none",
+            boxShadow: hovered ? "0 0 32px rgba(255,215,0,0.1)" : "none",
             transition: "transform 0.3s ease, box-shadow 0.3s ease",
           }}
           onMouseEnter={() => setHovered(true)}
@@ -100,7 +104,7 @@ export default function PatternsSection() {
             className="absolute top-0 left-0 right-0"
             style={{
               height: 3,
-              background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+              background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
             }}
           />
 
@@ -112,7 +116,7 @@ export default function PatternsSection() {
               minHeight: 220,
               backgroundColor: "#0d0d16",
               backgroundImage:
-                "repeating-linear-gradient(-45deg, rgba(232,101,10,0.03) 0, rgba(232,101,10,0.03) 1px, transparent 0, transparent 50%)",
+                "repeating-linear-gradient(-45deg, rgba(255,107,0,0.03) 0, rgba(255,107,0,0.03) 1px, transparent 0, transparent 50%)",
               backgroundSize: "18px 18px",
             }}
           >
@@ -120,29 +124,29 @@ export default function PatternsSection() {
             <div
               className="absolute top-0 left-0 w-6 h-6"
               style={{
-                borderTop: "1px solid rgba(232,101,10,0.25)",
-                borderLeft: "1px solid rgba(232,101,10,0.25)",
+                borderTop: "1px solid rgba(255,107,0,0.25)",
+                borderLeft: "1px solid rgba(255,107,0,0.25)",
               }}
             />
             <div
               className="absolute top-0 right-0 w-6 h-6"
               style={{
-                borderTop: "1px solid rgba(232,101,10,0.25)",
-                borderRight: "1px solid rgba(232,101,10,0.25)",
+                borderTop: "1px solid rgba(255,107,0,0.25)",
+                borderRight: "1px solid rgba(255,107,0,0.25)",
               }}
             />
             <div
               className="absolute bottom-0 left-0 w-6 h-6"
               style={{
-                borderBottom: "1px solid rgba(232,101,10,0.25)",
-                borderLeft: "1px solid rgba(232,101,10,0.25)",
+                borderBottom: "1px solid rgba(255,107,0,0.25)",
+                borderLeft: "1px solid rgba(255,107,0,0.25)",
               }}
             />
             <div
               className="absolute bottom-0 right-0 w-6 h-6"
               style={{
-                borderBottom: "1px solid rgba(232,101,10,0.25)",
-                borderRight: "1px solid rgba(232,101,10,0.25)",
+                borderBottom: "1px solid rgba(255,107,0,0.25)",
+                borderRight: "1px solid rgba(255,107,0,0.25)",
               }}
             />
 
@@ -150,7 +154,10 @@ export default function PatternsSection() {
               <div
                 className="font-black mb-2"
                 style={{
-                  color: "#E8650A",
+                  background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
                   fontSize: "clamp(1.2rem, 3vw, 2rem)",
                   letterSpacing: "0.12em",
                   fontFamily: "'Barlow Condensed', system-ui, sans-serif",
@@ -177,9 +184,9 @@ export default function PatternsSection() {
               <span
                 style={{
                   display: "inline-block",
-                  color: "#E8650A",
-                  backgroundColor: "rgba(232,101,10,0.08)",
-                  border: "1px solid rgba(232,101,10,0.2)",
+                  color: "#FF6B00",
+                  backgroundColor: "rgba(255,107,0,0.08)",
+                  border: "1px solid rgba(255,107,0,0.2)",
                   fontSize: 10,
                   fontWeight: 600,
                   letterSpacing: "0.12em",
@@ -191,8 +198,16 @@ export default function PatternsSection() {
                 PATTERNS
               </span>
               <h3
-                className="font-bold mb-3 text-white"
-                style={{ fontSize: 18, letterSpacing: "0.05em", lineHeight: 1.3 }}
+                className="font-bold mb-3"
+                style={{
+                  fontSize: 18,
+                  letterSpacing: "0.05em",
+                  lineHeight: 1.3,
+                  background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
               >
                 PATTERNS CATALOG
               </h3>
@@ -214,9 +229,9 @@ export default function PatternsSection() {
                 onClick={handleView}
                 className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
                 style={{
-                  border: "1px solid rgba(232,101,10,0.3)",
+                  border: "1px solid rgba(255,107,0,0.3)",
                   backgroundColor: "transparent",
-                  color: "rgba(232,101,10,0.85)",
+                  color: "rgba(255,107,0,0.85)",
                   padding: "10px 24px",
                   fontSize: 11,
                   letterSpacing: "0.2em",
@@ -224,15 +239,15 @@ export default function PatternsSection() {
                   minHeight: 44,
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#E8650A";
+                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#FF6B00";
                   (e.currentTarget as HTMLButtonElement).style.color = "#fff";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "#E8650A";
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = "#FF6B00";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
-                  (e.currentTarget as HTMLButtonElement).style.color = "rgba(232,101,10,0.85)";
+                  (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,107,0,0.85)";
                   (e.currentTarget as HTMLButtonElement).style.borderColor =
-                    "rgba(232,101,10,0.3)";
+                    "rgba(255,107,0,0.3)";
                 }}
               >
                 VIEW
@@ -241,9 +256,9 @@ export default function PatternsSection() {
                 onClick={handleDownload}
                 className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
                 style={{
-                  border: "1px solid rgba(232,101,10,0.15)",
-                  backgroundColor: "rgba(232,101,10,0.08)",
-                  color: "#E8650A",
+                  border: "1px solid rgba(255,107,0,0.15)",
+                  backgroundColor: "rgba(255,107,0,0.08)",
+                  color: "#FF6B00",
                   padding: "10px 24px",
                   fontSize: 11,
                   letterSpacing: "0.2em",
@@ -252,11 +267,11 @@ export default function PatternsSection() {
                 }}
                 onMouseEnter={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                    "rgba(232,101,10,0.16)";
+                    "rgba(255,107,0,0.16)";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                    "rgba(232,101,10,0.08)";
+                    "rgba(255,107,0,0.08)";
                 }}
               >
                 DOWNLOAD

@@ -5,14 +5,7 @@ import brochuresData from "@/data/brochures.json";
 
 type Category = "ALL" | "OVERGARMENTS" | "BLANKETS" | "HIDE SITES" | "URBAN" | "MOBILE";
 
-const CATEGORIES: Category[] = [
-  "ALL",
-  "OVERGARMENTS",
-  "BLANKETS",
-  "HIDE SITES",
-  "URBAN",
-  "MOBILE",
-];
+const CATEGORIES: Category[] = ["ALL", "OVERGARMENTS", "BLANKETS", "HIDE SITES", "URBAN", "MOBILE"];
 
 const CATEGORY_MAP: Record<string, Category> = {
   Overgarments: "OVERGARMENTS",
@@ -22,6 +15,21 @@ const CATEGORY_MAP: Record<string, Category> = {
   Mobile: "MOBILE",
 };
 
+// Exact filename mappings for images in /public/images/products/
+const IMAGE_MAP: Record<string, string> = {
+  "GAL SUIT": "GAL SUIT.png",
+  "FLINT \u2014 PLATFORM ON THE MOVE": "Flint Platform on the move.png",
+  "ARMORED PLATFORM HIDE SITE": "ARMORD PLATFORM HIDE SITE.png",
+  "WP SURVIVAL BLANKET": "WP SURVIVAL BLANKET.png",
+};
+
+function getImageSrc(title: string): string {
+  const filename = IMAGE_MAP[title];
+  if (filename) return `/images/products/${filename}`;
+  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  return `/images/products/${slug}.png`;
+}
+
 interface Brochure {
   id: number;
   title: string;
@@ -30,152 +38,93 @@ interface Brochure {
   driveUrl: string;
 }
 
-function toImageSlug(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
 function DownloadIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-      />
+    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
     </svg>
   );
 }
 
 function EyeIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-      />
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-      />
+    <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
     </svg>
   );
 }
 
-function ProductImage({ title }: { title: string }) {
+function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
   const [errored, setErrored] = useState(false);
-  const slug = toImageSlug(title);
-
-  if (errored) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: 200,
-          backgroundColor: "#1a1a2e",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 10,
-          flexShrink: 0,
-        }}
-      >
-        {/* Crosshair SVG */}
-        <svg
-          width="32"
-          height="32"
-          viewBox="0 0 32 32"
-          fill="none"
-          aria-label="Image placeholder"
-        >
-          <circle cx="16" cy="16" r="11" stroke="#555577" strokeWidth="1.2" />
-          <circle cx="16" cy="16" r="3" stroke="#555577" strokeWidth="1.2" />
-          <line
-            x1="16"
-            y1="2"
-            x2="16"
-            y2="8"
-            stroke="#555577"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-          <line
-            x1="16"
-            y1="24"
-            x2="16"
-            y2="30"
-            stroke="#555577"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-          <line
-            x1="2"
-            y1="16"
-            x2="8"
-            y2="16"
-            stroke="#555577"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-          <line
-            x1="24"
-            y1="16"
-            x2="30"
-            y2="16"
-            stroke="#555577"
-            strokeWidth="1.2"
-            strokeLinecap="round"
-          />
-        </svg>
-        <span
-          style={{
-            color: "#555577",
-            fontSize: 12,
-            lineHeight: 1.4,
-            textAlign: "center",
-          }}
-        >
-          Image Coming Soon
-        </span>
-      </div>
-    );
-  }
+  const src = getImageSrc(title);
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`/images/${slug}.png`}
-      alt={`${title} product image`}
-      onError={() => setErrored(true)}
+    <div
       style={{
+        position: "relative",
         width: "100%",
-        height: 200,
-        objectFit: "cover",
-        display: "block",
+        paddingBottom: "56.25%",
+        height: 0,
+        overflow: "hidden",
         flexShrink: 0,
+        backgroundColor: "#1a1a2e",
       }}
-    />
+    >
+      {errored ? (
+        <div
+          style={{
+            position: "absolute",
+            top: 0, left: 0, width: "100%", height: "100%",
+            backgroundColor: "#1a1a2e",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+          }}
+        >
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Image placeholder">
+            <circle cx="16" cy="16" r="11" stroke="#555577" strokeWidth="1.2" />
+            <circle cx="16" cy="16" r="3" stroke="#555577" strokeWidth="1.2" />
+            <line x1="16" y1="2" x2="16" y2="8" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="16" y1="24" x2="16" y2="30" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="2" y1="16" x2="8" y2="16" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+            <line x1="24" y1="16" x2="30" y2="16" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+          </svg>
+          <span style={{ color: "#555577", fontSize: 12, lineHeight: 1.4, textAlign: "center" }}>
+            Image Coming Soon
+          </span>
+        </div>
+      ) : (
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={src}
+            alt={`${title} product image`}
+            onError={() => setErrored(true)}
+            style={{
+              position: "absolute",
+              top: 0, left: 0, width: "100%", height: "100%",
+              objectFit: "cover",
+              display: "block",
+              transform: hovered ? "scale(1.05)" : "scale(1)",
+              transition: "transform 0.4s ease",
+            }}
+          />
+          {/* Dark gradient overlay at bottom */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: 0, left: 0, right: 0,
+              height: "45%",
+              background: "linear-gradient(to top, rgba(17,17,24,0.85), transparent)",
+              pointerEvents: "none",
+            }}
+          />
+        </>
+      )}
+    </div>
   );
 }
 
@@ -194,28 +143,13 @@ function BrochureCard({
   const handleView = () => window.open(brochure.driveUrl, "_blank");
   const handleDownload = () => {
     const fileId = brochure.driveUrl.match(/\/d\/(.+?)\/view/)?.[1];
-    if (fileId) {
-      window.open(
-        `https://drive.google.com/uc?export=download&id=${fileId}`,
-        "_blank"
-      );
-    }
+    if (fileId) window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, "_blank");
   };
 
   return (
-    <div
-      ref={cardRef}
-      className="reveal flex flex-col"
-      style={{ transitionDelay: `${delay}ms` }}
-    >
+    <div ref={cardRef} className="reveal flex flex-col" style={{ transitionDelay: `${delay}ms` }}>
       {/* Gradient top border */}
-      <div
-        style={{
-          height: 3,
-          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
-          flexShrink: 0,
-        }}
-      />
+      <div style={{ height: 3, background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)", flexShrink: 0 }} />
 
       {/* Card body */}
       <div
@@ -223,14 +157,14 @@ function BrochureCard({
         style={{
           backgroundColor: "#111118",
           transform: hovered ? "translateY(-4px)" : "translateY(0)",
-          boxShadow: hovered ? "0 0 28px rgba(232,101,10,0.12)" : "none",
+          boxShadow: hovered ? "0 0 28px rgba(255,107,0,0.14)" : "none",
           transition: "transform 0.3s ease, box-shadow 0.3s ease",
         }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Product image */}
-        <ProductImage title={brochure.title} />
+        {/* Product image — 16:9 with hover scale */}
+        <ProductImage title={brochure.title} hovered={hovered} />
 
         {/* Content */}
         <div className="flex flex-col flex-1 p-5">
@@ -239,9 +173,9 @@ function BrochureCard({
             <span
               style={{
                 display: "inline-block",
-                color: "#E8650A",
-                backgroundColor: "rgba(232,101,10,0.08)",
-                border: "1px solid rgba(232,101,10,0.2)",
+                color: "#FF6B00",
+                backgroundColor: "rgba(255,107,0,0.08)",
+                border: "1px solid rgba(255,107,0,0.2)",
                 fontSize: 10,
                 fontWeight: 600,
                 letterSpacing: "0.12em",
@@ -253,51 +187,51 @@ function BrochureCard({
             </span>
           </div>
 
-          {/* Title */}
+          {/* Title — gradient text */}
           <h3
-            className="font-semibold text-white mb-2"
-            style={{ fontSize: 16, lineHeight: 1.3 }}
+            className="font-semibold mb-2"
+            style={{
+              fontSize: 16,
+              lineHeight: 1.3,
+              background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
           >
             {brochure.title}
           </h3>
 
           {/* Description */}
-          <p
-            className="flex-1 mb-5"
-            style={{
-              color: "#8888aa",
-              fontSize: 14,
-              lineHeight: 1.7,
-            }}
-          >
+          <p className="flex-1 mb-5" style={{ color: "#8888aa", fontSize: 14, lineHeight: 1.7 }}>
             {brochure.description}
           </p>
 
-          {/* Actions — side by side on sm+, stacked on mobile */}
+          {/* Actions — side by side sm+, stacked mobile */}
           <div className="flex flex-col sm:flex-row gap-3 mt-auto">
             <button
               onClick={handleView}
               className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
               style={{
-                border: "1px solid rgba(232,101,10,0.3)",
+                border: "1px solid rgba(255,107,0,0.3)",
                 backgroundColor: "transparent",
-                color: "rgba(232,101,10,0.85)",
+                color: "rgba(255,107,0,0.9)",
                 padding: "10px 16px",
                 fontSize: 11,
                 letterSpacing: "0.15em",
                 cursor: "pointer",
                 minHeight: 44,
+                fontFamily: "inherit",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#E8650A";
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#FF6B00";
                 (e.currentTarget as HTMLButtonElement).style.color = "#fff";
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "#E8650A";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "#FF6B00";
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
-                (e.currentTarget as HTMLButtonElement).style.color = "rgba(232,101,10,0.85)";
-                (e.currentTarget as HTMLButtonElement).style.borderColor =
-                  "rgba(232,101,10,0.3)";
+                (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,107,0,0.9)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,107,0,0.3)";
               }}
             >
               <EyeIcon />
@@ -308,22 +242,21 @@ function BrochureCard({
               onClick={handleDownload}
               className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
               style={{
-                border: "1px solid rgba(232,101,10,0.15)",
-                backgroundColor: "rgba(232,101,10,0.08)",
-                color: "#E8650A",
+                border: "1px solid rgba(255,107,0,0.15)",
+                backgroundColor: "rgba(255,107,0,0.08)",
+                color: "#FF6B00",
                 padding: "10px 16px",
                 fontSize: 11,
                 letterSpacing: "0.15em",
                 cursor: "pointer",
                 minHeight: 44,
+                fontFamily: "inherit",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  "rgba(232,101,10,0.16)";
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(255,107,0,0.18)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                  "rgba(232,101,10,0.08)";
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = "rgba(255,107,0,0.08)";
               }}
             >
               <DownloadIcon />
@@ -368,11 +301,7 @@ export default function BrochureLibrary() {
     });
   }, []);
 
-  useEffect(() => {
-    return () => {
-      observerRef.current?.disconnect();
-    };
-  }, []);
+  useEffect(() => { return () => { observerRef.current?.disconnect(); }; }, []);
 
   useEffect(() => {
     const t = setTimeout(setupObserver, 50);
@@ -386,58 +315,34 @@ export default function BrochureLibrary() {
       className="relative py-20 lg:py-32"
       style={{ backgroundColor: "#08080f" }}
     >
-      {/* Top gradient divider */}
-      <div
-        className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
-        }}
-      />
+      <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        {/* Section header */}
         <div className="flex items-center gap-4 mb-5">
-          <div
-            className="h-px w-10 shrink-0"
-            style={{ background: "linear-gradient(135deg, #E8650A, #6B3FA0)" }}
-          />
-          <span
-            style={{
-              color: "#E8650A",
-              fontSize: 11,
-              letterSpacing: "0.14em",
-              fontWeight: 600,
-              textTransform: "uppercase",
-            }}
-          >
+          <div className="h-px w-10 shrink-0" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
+          <span style={{ color: "#FF6B00", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600, textTransform: "uppercase" }}>
             PRODUCT CATALOG
           </span>
-          <div
-            className="h-px flex-1"
-            style={{ backgroundColor: "rgba(240,240,245,0.06)" }}
-          />
+          <div className="h-px flex-1" style={{ backgroundColor: "rgba(240,240,245,0.06)" }} />
         </div>
 
         <h2
-          className="font-bold text-white mb-3"
+          className="font-bold mb-3"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
             letterSpacing: "0.08em",
             lineHeight: 1.15,
+            background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
           }}
         >
           BROCHURE LIBRARY
         </h2>
 
-        <p
-          className="mb-12"
-          style={{
-            color: "#8888aa",
-            fontSize: 15,
-            lineHeight: 1.7,
-          }}
-        >
+        <p className="mb-12" style={{ color: "#8888aa", fontSize: 15, lineHeight: 1.7 }}>
           Select a product to view or download the technical brochure.
         </p>
 
@@ -455,31 +360,24 @@ export default function BrochureLibrary() {
                   fontWeight: 700,
                   letterSpacing: "0.18em",
                   cursor: "pointer",
-                  border: active
-                    ? "1px solid transparent"
-                    : "1px solid rgba(240,240,245,0.12)",
-                  background: active
-                    ? "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)"
-                    : "transparent",
-                  color: active ? "#fff" : "rgba(240,240,245,0.45)",
+                  border: active ? "1px solid transparent" : "1px solid rgba(240,240,245,0.12)",
+                  background: active ? "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" : "transparent",
+                  color: active ? "#08080f" : "rgba(240,240,245,0.45)",
                   borderRadius: 999,
                   transition: "all 0.2s ease",
                   minHeight: 36,
+                  fontFamily: "inherit",
                 }}
                 onMouseEnter={(e) => {
                   if (!active) {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor =
-                      "rgba(232,101,10,0.45)";
-                    (e.currentTarget as HTMLButtonElement).style.color =
-                      "rgba(232,101,10,0.9)";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,215,0,0.5)";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#FFD700";
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!active) {
-                    (e.currentTarget as HTMLButtonElement).style.borderColor =
-                      "rgba(240,240,245,0.12)";
-                    (e.currentTarget as HTMLButtonElement).style.color =
-                      "rgba(240,240,245,0.45)";
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(240,240,245,0.12)";
+                    (e.currentTarget as HTMLButtonElement).style.color = "rgba(240,240,245,0.45)";
                   }
                 }}
               >
@@ -487,35 +385,25 @@ export default function BrochureLibrary() {
               </button>
             );
           })}
-          <span
-            className="ml-auto"
-            style={{ color: "#8888aa", fontSize: 11, letterSpacing: "0.15em" }}
-          >
+          <span className="ml-auto" style={{ color: "#8888aa", fontSize: 11, letterSpacing: "0.15em" }}>
             {filtered.length} ITEMS
           </span>
         </div>
 
-        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((brochure, i) => (
             <BrochureCard
               key={`${brochure.id}-${activeCategory}`}
               brochure={brochure}
               delay={i * 60}
-              cardRef={(el) => {
-                cardRefs.current[i] = el;
-              }}
+              cardRef={(el) => { cardRefs.current[i] = el; }}
             />
           ))}
         </div>
 
         {filtered.length === 0 && (
           <div className="text-center py-24">
-            <span
-              style={{ color: "#8888aa", fontSize: 12, letterSpacing: "0.3em" }}
-            >
-              NO ITEMS IN THIS CATEGORY
-            </span>
+            <span style={{ color: "#8888aa", fontSize: 12, letterSpacing: "0.3em" }}>NO ITEMS IN THIS CATEGORY</span>
           </div>
         )}
       </div>

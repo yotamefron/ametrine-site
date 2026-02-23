@@ -37,7 +37,7 @@ export default function ContactSection() {
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{
-          background: "linear-gradient(135deg, #E8650A 0%, #6B3FA0 100%)",
+          background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
         }}
       />
 
@@ -46,11 +46,11 @@ export default function ContactSection() {
         <div className="reveal flex items-center gap-4 mb-5">
           <div
             className="h-px w-10 shrink-0"
-            style={{ background: "linear-gradient(135deg, #E8650A, #6B3FA0)" }}
+            style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }}
           />
           <span
             style={{
-              color: "#E8650A",
+              color: "#FF6B00",
               fontSize: 11,
               letterSpacing: "0.14em",
               fontWeight: 600,
@@ -79,7 +79,7 @@ export default function ContactSection() {
             >
               ESTABLISH
               <br />
-              <span style={{ color: "#E8650A" }}>CONTACT</span>
+              <span style={{ color: "#FF6B00" }}>CONTACT</span>
             </h2>
 
             <p
@@ -113,20 +113,20 @@ export default function ContactSection() {
                 href="mailto:sales@ametrine-tech.com"
                 className="font-bold transition-all duration-200"
                 style={{
-                  color: "#E8650A",
+                  color: "#FF6B00",
                   fontSize: "clamp(1rem, 2.5vw, 1.5rem)",
                   letterSpacing: "0.04em",
                   textDecoration: "none",
                   display: "inline-block",
-                  borderBottom: "1px solid rgba(232,101,10,0.3)",
+                  borderBottom: "1px solid rgba(255,107,0,0.3)",
                   paddingBottom: 4,
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "#E8650A";
+                  (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "#FF6B00";
                 }}
                 onMouseLeave={(e) => {
                   (e.currentTarget as HTMLAnchorElement).style.borderBottomColor =
-                    "rgba(232,101,10,0.3)";
+                    "rgba(255,107,0,0.3)";
                 }}
               >
                 sales@ametrine-tech.com
@@ -153,19 +153,19 @@ export default function ContactSection() {
                 key={badge.label}
                 className="reveal flex items-center gap-5"
                 style={{
-                  border: "1px solid rgba(232,101,10,0.12)",
+                  border: "1px solid rgba(255,107,0,0.12)",
                   padding: "20px 24px",
                   backgroundColor: "#111118",
                 }}
               >
                 <div
                   className="w-px self-stretch"
-                  style={{ backgroundColor: "#E8650A", minHeight: 40 }}
+                  style={{ backgroundColor: "#FF6B00", minHeight: 40 }}
                 />
                 <div>
                   <div
                     style={{
-                      color: "#E8650A",
+                      color: "#FF6B00",
                       fontSize: 13,
                       fontWeight: 700,
                       letterSpacing: "0.15em",

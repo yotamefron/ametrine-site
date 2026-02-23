@@ -10,7 +10,7 @@ export default function Footer() {
         className="h-px w-full"
         style={{
           background:
-            "linear-gradient(135deg, transparent, rgba(232,101,10,0.5), rgba(107,63,160,0.4), transparent)",
+            "linear-gradient(135deg, transparent, rgba(255,215,0,0.5), rgba(123,47,190,0.4), transparent)",
         }}
       />
 
@@ -50,7 +50,7 @@ export default function Footer() {
           <div>
             <h4
               style={{
-                color: "#E8650A",
+                color: "#FF6B00",
                 fontSize: 10,
                 letterSpacing: "0.3em",
                 fontWeight: 700,
@@ -101,17 +101,17 @@ export default function Footer() {
           <a
             href="mailto:sales@ametrine-tech.com"
             style={{
-              color: "rgba(232,101,10,0.4)",
+              color: "rgba(255,107,0,0.4)",
               fontSize: 10,
               letterSpacing: "0.15em",
               textDecoration: "none",
               transition: "color 0.2s ease",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "#E8650A";
+              (e.currentTarget as HTMLAnchorElement).style.color = "#FF6B00";
             }}
             onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.color = "rgba(232,101,10,0.4)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "rgba(255,107,0,0.4)";
             }}
           >
             sales@ametrine-tech.com
