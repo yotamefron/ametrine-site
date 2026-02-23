@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import brochuresData from "@/data/brochures.json";
 
 type Category = "ALL" | "OVERGARMENTS" | "BLANKETS" | "HIDE SITES" | "URBAN" | "MOBILE";
@@ -16,19 +17,15 @@ const CATEGORY_MAP: Record<string, Category> = {
 };
 
 // Exact filename mappings for images in /public/images/products/
+// Filenames matched from: ls public/images/products/
+// Found: GAL SUIT.png, Flint Platform on the move.png,
+//        ARMORD PLATFORM HIDE SITE.png, WP SURVIVAL BLANKET.png
 const IMAGE_MAP: Record<string, string> = {
   "GAL SUIT": "GAL SUIT.png",
   "FLINT \u2014 PLATFORM ON THE MOVE": "Flint Platform on the move.png",
   "ARMORED PLATFORM HIDE SITE": "ARMORD PLATFORM HIDE SITE.png",
   "WP SURVIVAL BLANKET": "WP SURVIVAL BLANKET.png",
 };
-
-function getImageSrc(title: string): string {
-  const filename = IMAGE_MAP[title];
-  if (filename) return `/images/products/${filename}`;
-  const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-  return `/images/products/${slug}.png`;
-}
 
 interface Brochure {
   id: number;
@@ -55,75 +52,72 @@ function EyeIcon() {
   );
 }
 
-function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
-  const [errored, setErrored] = useState(false);
-  const src = getImageSrc(title);
-
+function ImagePlaceholder({ title }: { title: string }) {
   return (
     <div
       style={{
-        position: "relative",
         width: "100%",
-        paddingBottom: "56.25%",
-        height: 0,
-        overflow: "hidden",
-        flexShrink: 0,
+        height: "100%",
         backgroundColor: "#1a1a2e",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 10,
       }}
     >
-      {errored ? (
-        <div
-          style={{
-            position: "absolute",
-            top: 0, left: 0, width: "100%", height: "100%",
-            backgroundColor: "#1a1a2e",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 10,
-          }}
-        >
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Image placeholder">
-            <circle cx="16" cy="16" r="11" stroke="#555577" strokeWidth="1.2" />
-            <circle cx="16" cy="16" r="3" stroke="#555577" strokeWidth="1.2" />
-            <line x1="16" y1="2" x2="16" y2="8" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
-            <line x1="16" y1="24" x2="16" y2="30" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
-            <line x1="2" y1="16" x2="8" y2="16" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
-            <line x1="24" y1="16" x2="30" y2="16" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
-          </svg>
-          <span style={{ color: "#555577", fontSize: 12, lineHeight: 1.4, textAlign: "center" }}>
-            Image Coming Soon
-          </span>
-        </div>
-      ) : (
-        <>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={src}
-            alt={`${title} product image`}
-            onError={() => setErrored(true)}
-            style={{
-              position: "absolute",
-              top: 0, left: 0, width: "100%", height: "100%",
-              objectFit: "cover",
-              display: "block",
-              transform: hovered ? "scale(1.05)" : "scale(1)",
-              transition: "transform 0.4s ease",
-            }}
-          />
-          {/* Dark gradient overlay at bottom */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0, left: 0, right: 0,
-              height: "45%",
-              background: "linear-gradient(to top, rgba(17,17,24,0.85), transparent)",
-              pointerEvents: "none",
-            }}
-          />
-        </>
-      )}
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Image placeholder">
+        <circle cx="16" cy="16" r="11" stroke="#555577" strokeWidth="1.2" />
+        <circle cx="16" cy="16" r="3" stroke="#555577" strokeWidth="1.2" />
+        <line x1="16" y1="2" x2="16" y2="8" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+        <line x1="16" y1="24" x2="16" y2="30" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+        <line x1="2" y1="16" x2="8" y2="16" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+        <line x1="24" y1="16" x2="30" y2="16" stroke="#555577" strokeWidth="1.2" strokeLinecap="round" />
+      </svg>
+      <span style={{ color: "#FFD700", fontSize: 11, lineHeight: 1.4, textAlign: "center", maxWidth: "80%", letterSpacing: "0.06em" }}>
+        {title}
+      </span>
+    </div>
+  );
+}
+
+function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
+  const [errored, setErrored] = useState(false);
+  const filename = IMAGE_MAP[title];
+
+  // No image mapped or load error → show placeholder
+  if (!filename || errored) {
+    return (
+      <div className="relative w-full aspect-video overflow-hidden" style={{ flexShrink: 0, backgroundColor: "#1a1a2e" }}>
+        <ImagePlaceholder title={title} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="relative w-full aspect-video overflow-hidden" style={{ flexShrink: 0 }}>
+      <Image
+        src={`/images/products/${filename}`}
+        alt={`${title} product image`}
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="object-cover"
+        style={{
+          transform: hovered ? "scale(1.05)" : "scale(1)",
+          transition: "transform 0.4s ease",
+        }}
+        onError={() => setErrored(true)}
+      />
+      {/* Dark gradient overlay at bottom */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0, left: 0, right: 0,
+          height: "45%",
+          background: "linear-gradient(to top, rgba(17,17,24,0.85), transparent)",
+          pointerEvents: "none",
+        }}
+      />
     </div>
   );
 }

@@ -19,8 +19,8 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex flex-col overflow-hidden"
-      style={{ backgroundColor: "#08080f", minHeight: "85vh" }}
+      className="relative flex flex-col overflow-hidden md:min-h-[85vh]"
+      style={{ backgroundColor: "#08080f" }}
     >
       {/* Animated radial glow */}
       <div
@@ -44,7 +44,7 @@ export default function Hero() {
       />
 
       {/* Main content */}
-      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 pt-16 pb-24 text-center">
+      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 pt-8 pb-8 md:pt-16 md:pb-24 text-center">
 
         {/* Logo */}
         <div ref={setRef(0)} className="hero-el mb-8">
@@ -86,7 +86,7 @@ export default function Hero() {
         {/* Catalog subtitle */}
         <p
           ref={setRef(3)}
-          className="hero-el mb-10"
+          className="hero-el mb-4"
           style={{
             color: "#FF6B00",
             fontSize: "clamp(0.65rem, 1.4vw, 0.8rem)",
@@ -102,7 +102,7 @@ export default function Hero() {
         {/* CTA */}
         <div
           ref={setRef(4)}
-          className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4 mt-8"
         >
           <button
             onClick={() => document.getElementById("brochures")?.scrollIntoView({ behavior: "smooth" })}
@@ -124,18 +124,6 @@ export default function Hero() {
             EXPLORE OUR SOLUTIONS
           </button>
         </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div
-        className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-        style={{ bottom: 24, opacity: 0.25 }}
-      >
-        <span style={{ color: "#8888aa", fontSize: 9, letterSpacing: "0.3em" }}>SCROLL</span>
-        <div
-          className="w-px"
-          style={{ height: 32, background: "linear-gradient(to bottom, #8888aa, transparent)" }}
-        />
       </div>
     </section>
   );

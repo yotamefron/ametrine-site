@@ -34,7 +34,7 @@ export default function VideoSection() {
         style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-24">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 lg:py-16">
         {/* Section header */}
         <div className="reveal flex items-center gap-4 mb-5">
           <div className="h-px w-10 shrink-0" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
@@ -45,7 +45,7 @@ export default function VideoSection() {
         </div>
 
         <h2
-          className="reveal font-bold mb-10"
+          className="reveal font-bold mb-6"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
             fontSize: "clamp(2rem, 4vw, 3rem)",
@@ -72,9 +72,9 @@ export default function VideoSection() {
             <div style={{ backgroundColor: "#08080f", borderRadius: 7, overflow: "hidden" }}>
               <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
                 <iframe
-                  src="https://drive.google.com/file/d/17BL89_yvN7OfiGjOiTlYYn_gjWgbJc32/preview"
+                  src="https://drive.google.com/file/d/17BL89_yvN7OfiGjOiTlYYn_gjWgbJc32/preview?autoplay=1"
                   style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                  allow="autoplay"
+                  allow="autoplay; fullscreen"
                   allowFullScreen
                   title="Ametrine Capability Demonstration"
                 />
