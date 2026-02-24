@@ -49,78 +49,111 @@ export default function VideoSection() {
         style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 lg:py-16">
-        {/* Section header */}
-        <div className="reveal flex items-center gap-4 mb-5">
-          <div className="h-px w-10 shrink-0" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
-          <span style={{ color: "#FF6B00", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600, textTransform: "uppercase" }}>
-            CAPABILITY DEMONSTRATION
-          </span>
-          <div className="h-px flex-1" style={{ backgroundColor: "rgba(240,240,245,0.06)" }} />
-        </div>
+      {/* Video container — always centered, max-width 1400 */}
+      <div className="w-full" style={{ maxWidth: 1400, margin: "0 auto" }}>
+        <div className="relative">
+          {/* 16:9 ratio container */}
+          <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
 
-        <h2
-          className="reveal font-bold mb-6"
-          style={{
-            fontFamily: "'Barlow Condensed', system-ui, sans-serif",
-            fontSize: "clamp(2rem, 4vw, 3rem)",
-            letterSpacing: "0.06em",
-            lineHeight: 1.2,
-            background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
-        >
-          SEE THE TECHNOLOGY
-        </h2>
-
-        {/* Video — gradient border wrapper */}
-        <div className="reveal max-w-4xl mx-auto">
-          <div
-            style={{
-              padding: 2,
-              background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ backgroundColor: "#08080f", borderRadius: 7, overflow: "hidden" }}>
-              {/* 16:9 ratio container */}
-              <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
-
-                {/* Loading spinner — shown until iframe fires onLoad */}
-                {!videoLoaded && (
-                  <div
-                    style={{
-                      position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
-                      display: "flex", flexDirection: "column", alignItems: "center",
-                      justifyContent: "center", gap: 16,
-                      backgroundColor: "#0d0d16", zIndex: 1,
-                    }}
-                  >
-                    <div
-                      className="animate-spin"
-                      style={{
-                        width: 40, height: 40, borderRadius: "50%",
-                        border: "3px solid rgba(255,215,0,0.15)",
-                        borderTopColor: "#FFD700",
-                      }}
-                    />
-                    <span style={{ color: "#8888aa", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
-                      LOADING VIDEO
-                    </span>
-                  </div>
-                )}
-
-                <iframe
-                  src={embedUrl}
-                  style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                  allowFullScreen
-                  loading="lazy"
-                  title="Ametrine Capability Demonstration"
-                  onLoad={() => setVideoLoaded(true)}
+            {/* Loading spinner — shown until iframe fires onLoad */}
+            {!videoLoaded && (
+              <div
+                style={{
+                  position: "absolute", top: 0, left: 0, width: "100%", height: "100%",
+                  display: "flex", flexDirection: "column", alignItems: "center",
+                  justifyContent: "center", gap: 16,
+                  backgroundColor: "#0d0d16", zIndex: 1,
+                }}
+              >
+                <div
+                  className="animate-spin"
+                  style={{
+                    width: 40, height: 40, borderRadius: "50%",
+                    border: "3px solid rgba(255,215,0,0.15)",
+                    borderTopColor: "#FFD700",
+                  }}
                 />
+                <span style={{ color: "#8888aa", fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                  LOADING VIDEO
+                </span>
+              </div>
+            )}
+
+            <iframe
+              src={embedUrl}
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+              allowFullScreen
+              loading="lazy"
+              title="Ametrine Capability Demonstration"
+              onLoad={() => setVideoLoaded(true)}
+            />
+
+            {/* Overlay — gradient + text */}
+            <div
+              className="reveal"
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: "linear-gradient(to bottom, rgba(8,8,8,0.1), rgba(8,8,8,0.5))",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 2,
+                pointerEvents: "none",
+              }}
+            >
+              <div
+                style={{
+                  textAlign: "center",
+                  padding: "24px 16px",
+                  maxWidth: 680,
+                  background: "rgba(8,8,8,0.35)",
+                  borderRadius: 4,
+                }}
+              >
+                <p
+                  className="font-bold"
+                  style={{
+                    fontFamily: "'Barlow Condensed', system-ui, sans-serif",
+                    fontSize: "clamp(1rem, 2.5vw, 1.6rem)",
+                    letterSpacing: "0.06em",
+                    lineHeight: 1.3,
+                    color: "#f0f0f5",
+                    marginBottom: 12,
+                  }}
+                >
+                  Operational Multispectral Signature Management Systems.
+                </p>
+                <p
+                  style={{
+                    color: "#c0c0d0",
+                    fontSize: "clamp(0.7rem, 1.3vw, 0.88rem)",
+                    lineHeight: 1.6,
+                    marginBottom: 20,
+                  }}
+                >
+                  Ametrine designs and delivers mission-configured signature control solutions for units and defense programs operating under persistent multi-sensor surveillance.
+                </p>
+                <button
+                  className="btn-press font-bold"
+                  onClick={() => document.getElementById("brochures")?.scrollIntoView({ behavior: "smooth" })}
+                  style={{
+                    pointerEvents: "auto",
+                    background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
+                    color: "#08080f",
+                    padding: "12px 32px",
+                    fontSize: 11,
+                    letterSpacing: "0.2em",
+                    border: "none",
+                    cursor: "pointer",
+                    minHeight: 44,
+                    fontFamily: "inherit",
+                    fontWeight: 700,
+                  }}
+                >
+                  ACCESS SOLUTIONS CATALOG
+                </button>
               </div>
             </div>
           </div>

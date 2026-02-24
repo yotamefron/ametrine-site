@@ -1,22 +1,55 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const navLinks = [
-  { label: "BROCHURES", href: "#brochures" },
-  { label: "PATTERNS", href: "#patterns" },
-  { label: "VIDEO", href: "#video" },
-  { label: "CONTACT", href: "#contact" },
+  { label: "BROCHURES", href: "#brochures", id: "brochures" },
+  { label: "PATTERNS", href: "#patterns", id: "patterns" },
+  { label: "VIDEO", href: "#video", id: "video" },
+  { label: "CONTACT", href: "#contact", id: "contact" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // IntersectionObserver for active section highlighting
+  useEffect(() => {
+    const sectionIds = navLinks.map((l) => l.id);
+    const ratioMap = new Map<string, number>();
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          ratioMap.set(entry.target.id, entry.intersectionRatio);
+        });
+        let best = "";
+        let bestRatio = 0;
+        ratioMap.forEach((ratio, id) => {
+          if (ratio > bestRatio) {
+            bestRatio = ratio;
+            best = id;
+          }
+        });
+        if (bestRatio > 0) setActiveSection(best);
+      },
+      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observerRef.current?.observe(el);
+    });
+
+    return () => observerRef.current?.disconnect();
   }, []);
 
   const handleNav = (href: string) => {
@@ -37,7 +70,13 @@ export default function Navbar() {
         backdropFilter: scrolled ? "blur(16px)" : "none",
       }}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 h-full">
+      <div
+        className="max-w-7xl mx-auto h-full"
+        style={{
+          paddingInline: 16,
+          paddingRight: "calc(16px + env(safe-area-inset-right, 0px))",
+        }}
+      >
         <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <div
@@ -45,6 +84,7 @@ export default function Navbar() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             role="button"
             aria-label="Home"
+            style={{ minHeight: 44 }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -66,44 +106,54 @@ export default function Navbar() {
               <button
                 key={link.label}
                 onClick={() => handleNav(link.href)}
-                className="nav-link"
+                className={`nav-link${activeSection === link.id ? " nav-link--active" : ""}`}
               >
                 {link.label}
               </button>
             ))}
           </div>
 
-          {/* Mobile hamburger */}
+          {/* Mobile hamburger — 44x44 hit area, icon stays same size */}
           <button
-            className="md:hidden flex flex-col gap-[5px] p-2 cursor-pointer"
+            className="md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
-            style={{ background: "none", border: "none" }}
+            style={{
+              background: "none",
+              border: "none",
+              minWidth: 44,
+              minHeight: 44,
+              display: "grid",
+              placeItems: "center",
+              cursor: "pointer",
+            }}
           >
-            <span
-              className="block h-px transition-all duration-300"
-              style={{
-                width: 22,
-                backgroundColor: "#FF6B00",
-                transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
-              }}
-            />
-            <span
-              className="block h-px transition-all duration-300"
-              style={{
-                width: 22,
-                backgroundColor: "#FF6B00",
-                opacity: menuOpen ? 0 : 1,
-              }}
-            />
-            <span
-              className="block h-px transition-all duration-300"
-              style={{
-                width: 22,
-                backgroundColor: "#FF6B00",
-                transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none",
-              }}
-            />
+            <span className="flex flex-col gap-[5px]">
+              <span
+                className="block h-px transition-all duration-300"
+                style={{
+                  width: 22,
+                  backgroundColor: "#FF6B00",
+                  transform: menuOpen ? "rotate(45deg) translate(4px, 4px)" : "none",
+                }}
+              />
+              <span
+                className="block h-px transition-all duration-300"
+                style={{
+                  width: 22,
+                  backgroundColor: "#FF6B00",
+                  opacity: menuOpen ? 0 : 1,
+                }}
+              />
+              <span
+                className="block h-px transition-all duration-300"
+                style={{
+                  width: 22,
+                  backgroundColor: "#FF6B00",
+                  transform: menuOpen ? "rotate(-45deg) translate(4px, -4px)" : "none",
+                }}
+              />
+            </span>
           </button>
         </div>
       </div>
@@ -117,12 +167,12 @@ export default function Navbar() {
           borderTop: menuOpen ? "1px solid rgba(255,107,0,0.12)" : "none",
         }}
       >
-        <div className="flex flex-col px-6 py-6 gap-5">
+        <div className="flex flex-col py-6 gap-5" style={{ paddingInline: 16 }}>
           {navLinks.map((link) => (
             <button
               key={link.label}
               onClick={() => handleNav(link.href)}
-              className="text-left nav-link"
+              className={`text-left nav-link${activeSection === link.id ? " nav-link--active" : ""}`}
               style={{ fontSize: 13 }}
             >
               {link.label}

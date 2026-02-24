@@ -90,6 +90,49 @@ function PatternCard({ pattern }: { pattern: Pattern }) {
   );
 }
 
+/* Grid card for desktop — fills available space */
+function PatternGridCard({ pattern }: { pattern: Pattern }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        className="relative overflow-hidden"
+        style={{
+          width: "100%",
+          aspectRatio: "1 / 1",
+          border: hovered ? "1px solid rgba(255,215,0,0.5)" : "1px solid rgba(240,240,245,0.08)",
+          transition: "border-color 0.2s ease",
+        }}
+      >
+        <Image
+          src={`/pattern/${pattern.file}`}
+          alt={pattern.name}
+          fill
+          sizes="(max-width: 1024px) 200px, 220px"
+          className="object-cover"
+        />
+      </div>
+      <p
+        style={{
+          color: "#f0f0f5",
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          marginTop: 10,
+          textAlign: "center",
+        }}
+      >
+        {pattern.name}
+      </p>
+    </div>
+  );
+}
+
 export default function PatternsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -116,16 +159,14 @@ export default function PatternsSection() {
     return p.categories.includes(activeCategory);
   });
 
-  // Reset scroll position when filter changes
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollLeft = 0;
   }, [activeCategory]);
 
   const scroll = (direction: "left" | "right") => {
     if (!scrollRef.current) return;
-    const amount = 220;
     scrollRef.current.scrollBy({
-      left: direction === "left" ? -amount : amount,
+      left: direction === "left" ? -220 : 220,
       behavior: "smooth",
     });
   };
@@ -134,16 +175,15 @@ export default function PatternsSection() {
     <section
       id="patterns"
       ref={sectionRef}
-      className="relative py-20 lg:py-32"
-      style={{ backgroundColor: "#0d0d16" }}
+      className="relative"
+      style={{ backgroundColor: "#0d0d16", padding: "24px 16px" }}
     >
-      {/* Top gradient divider */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
         style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto" style={{ paddingTop: 24, paddingBottom: 24 }}>
         {/* Header */}
         <div className="reveal flex items-center gap-4 mb-5">
           <div
@@ -168,7 +208,7 @@ export default function PatternsSection() {
         </div>
 
         <h2
-          className="reveal font-bold mb-3"
+          className="reveal font-bold"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
@@ -178,31 +218,34 @@ export default function PatternsSection() {
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
+            marginBottom: 12,
           }}
         >
           CAMOUFLAGE PATTERNS
         </h2>
         <p
-          className="reveal mb-10"
+          className="reveal"
           style={{
             color: "#8888aa",
             fontSize: 11,
             fontWeight: 600,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
+            marginBottom: 16,
           }}
         >
           Engineered for any terrain &mdash; custom configurations available
         </p>
 
         {/* Category filter tabs */}
-        <div className="reveal flex flex-wrap gap-2 mb-10">
+        <div className="reveal flex flex-wrap gap-2" style={{ marginBottom: 16 }}>
           {CATEGORIES.map((cat) => {
             const active = activeCategory === cat;
             return (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
+                className="chip-transition"
                 style={{
                   padding: "8px 20px",
                   fontSize: 10,
@@ -215,8 +258,7 @@ export default function PatternsSection() {
                     : "transparent",
                   color: active ? "#08080f" : "rgba(255,215,0,0.7)",
                   borderRadius: 999,
-                  transition: "all 0.2s ease",
-                  minHeight: 36,
+                  minHeight: 44,
                   fontFamily: "inherit",
                 }}
                 onMouseEnter={(e) => {
@@ -238,15 +280,17 @@ export default function PatternsSection() {
           })}
         </div>
 
-        {/* Carousel */}
-        <div className="reveal relative">
-          {/* Left arrow */}
+        {/* Mobile: Carousel with swipe + arrows */}
+        <div className="reveal relative lg:hidden">
+          {/* Left arrow — 44x44 hit area */}
           <button
             onClick={() => scroll("left")}
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 items-center justify-center"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1 z-10 items-center justify-center"
             style={{
-              width: 40,
-              height: 40,
+              display: "grid",
+              placeItems: "center",
+              width: 44,
+              height: 44,
               borderRadius: "50%",
               backgroundColor: "rgba(8,8,15,0.85)",
               border: "1px solid rgba(255,215,0,0.3)",
@@ -259,13 +303,15 @@ export default function PatternsSection() {
             <ChevronLeft />
           </button>
 
-          {/* Right arrow */}
+          {/* Right arrow — 44x44 hit area */}
           <button
             onClick={() => scroll("right")}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 items-center justify-center"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1 z-10 items-center justify-center"
             style={{
-              width: 40,
-              height: 40,
+              display: "grid",
+              placeItems: "center",
+              width: 44,
+              height: 44,
               borderRadius: "50%",
               backgroundColor: "rgba(8,8,15,0.85)",
               border: "1px solid rgba(255,215,0,0.3)",
@@ -292,16 +338,43 @@ export default function PatternsSection() {
               <PatternCard key={pattern.file} pattern={pattern} />
             ))}
           </div>
+
+          {/* Swipe hint */}
+          <p
+            style={{
+              color: "#8888aa",
+              fontSize: 11,
+              letterSpacing: "0.06em",
+              marginTop: 8,
+              textAlign: "center",
+              opacity: 0.6,
+            }}
+          >
+            Swipe for additional patterns &rarr;
+          </p>
+        </div>
+
+        {/* Desktop: Grid layout (lg+) */}
+        <div
+          className="reveal hidden lg:grid gap-6"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+          }}
+        >
+          {filtered.map((pattern) => (
+            <PatternGridCard key={pattern.file} pattern={pattern} />
+          ))}
         </div>
 
         {/* Contact for custom pattern requests */}
         <p
-          className="reveal mt-10"
+          className="reveal"
           style={{
             color: "#8888aa",
             fontSize: 12,
             letterSpacing: "0.06em",
             lineHeight: 1.7,
+            marginTop: 16,
           }}
         >
           Custom pattern configurations available upon request &mdash;{" "}
@@ -317,6 +390,20 @@ export default function PatternsSection() {
           >
             contact sales@ametrine-tech.com
           </a>
+        </p>
+
+        {/* Disclaimer */}
+        <p
+          className="reveal"
+          style={{
+            color: "#8888aa",
+            fontSize: 12,
+            lineHeight: 1.5,
+            opacity: 0.7,
+            marginTop: 16,
+          }}
+        >
+          Displayed colors represent base pattern tones. Appearance may vary slightly depending on material and application.
         </p>
       </div>
     </section>

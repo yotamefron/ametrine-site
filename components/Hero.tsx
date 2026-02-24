@@ -7,14 +7,14 @@ export default function Hero() {
   const [showScroll, setShowScroll] = useState(true);
 
   useEffect(() => {
-    const delays = [100, 260, 420, 580, 740];
+    const delays = [100, 260, 420, 580, 740, 900];
     elementsRef.current.forEach((el, i) => {
       if (!el) return;
       setTimeout(() => el.classList.add("in"), delays[i] ?? 200 * i);
     });
   }, []);
 
-  // Hide scroll indicator after 100px scroll
+  // Hide scroll cue after 100px scroll
   useEffect(() => {
     const onScroll = () => setShowScroll(window.scrollY < 100);
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -54,8 +54,13 @@ export default function Hero() {
       {/* Mobile navbar spacer — on desktop VideoSection handles this */}
       <div className="h-[72px] flex-shrink-0 md:hidden" />
 
-      {/* Main content — space-y-4 mobile, space-y-6 desktop */}
-      <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-6 pt-6 pb-8 md:pt-16 md:pb-24 text-center space-y-4 md:space-y-6">
+      {/* Main content — reduced mobile padding (~35% less) */}
+      <div
+        className="relative z-10 flex flex-col items-center justify-center flex-1 text-center space-y-4 md:space-y-6"
+        style={{ padding: "16px 16px 24px", }}
+      >
+        {/* Desktop extra top padding */}
+        <div className="hidden md:block" style={{ height: 40 }} />
 
         {/* Logo */}
         <div ref={setRef(0)} className="hero-el">
@@ -94,9 +99,24 @@ export default function Hero() {
           BE INVISIBLE
         </h1>
 
-        {/* Catalog subtitle */}
+        {/* Supporting description line */}
         <p
           ref={setRef(3)}
+          className="hero-el"
+          style={{
+            color: "#c0c0d0",
+            fontSize: "clamp(15px, 1.6vw, 18px)",
+            lineHeight: 1.4,
+            maxWidth: 600,
+            margin: "0 auto",
+          }}
+        >
+          Ametrine develops integrated multispectral signature management systems across UV, VIS, NIR, thermal, and radar domains.
+        </p>
+
+        {/* Catalog subtitle */}
+        <p
+          ref={setRef(4)}
           className="hero-el"
           style={{
             color: "#FF6B00",
@@ -112,12 +132,13 @@ export default function Hero() {
 
         {/* CTA */}
         <div
-          ref={setRef(4)}
+          ref={setRef(5)}
           className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4"
+          style={{ marginTop: 16 }}
         >
           <button
             onClick={() => document.getElementById("brochures")?.scrollIntoView({ behavior: "smooth" })}
-            className="font-bold transition-all duration-200 hover:opacity-90 active:scale-[0.97]"
+            className="btn-press font-bold transition-all duration-200 hover:opacity-90"
             style={{
               background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
               color: "#08080f",
@@ -135,11 +156,14 @@ export default function Hero() {
             EXPLORE OUR SOLUTIONS
           </button>
         </div>
+
+        {/* Desktop extra bottom padding */}
+        <div className="hidden md:block" style={{ height: 48 }} />
       </div>
 
-      {/* Scroll indicator — bottom-right, disappears after 100px scroll */}
+      {/* Scroll cue — bottom center, disappears after 100px */}
       <div
-        className="absolute bottom-8 right-8 pointer-events-none z-10"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-10 flex flex-col items-center gap-1"
         style={{
           opacity: showScroll ? 1 : 0,
           transition: "opacity 0.4s ease",
@@ -158,6 +182,17 @@ export default function Hero() {
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
+        <span
+          style={{
+            color: "#FFD700",
+            fontSize: 9,
+            letterSpacing: "0.2em",
+            opacity: 0.5,
+            animation: "hero-pulse 3s ease-in-out infinite",
+          }}
+        >
+          Operational Overview
+        </span>
       </div>
     </section>
   );

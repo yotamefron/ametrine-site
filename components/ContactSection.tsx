@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const BADGES = [
   { label: "ISO 9001:2015", desc: "Certified" },
@@ -9,6 +9,7 @@ const BADGES = [
 
 export default function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -26,12 +27,29 @@ export default function ContactSection() {
     return () => observer.disconnect();
   }, []);
 
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("sales@ametrine-tech.com");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = "sales@ametrine-tech.com";
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    }
+  };
+
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative py-20 lg:py-32"
-      style={{ backgroundColor: "#0d0d16" }}
+      className="relative"
+      style={{ backgroundColor: "#0d0d16", padding: "24px 16px" }}
     >
       {/* Top gradient divider */}
       <div
@@ -41,7 +59,7 @@ export default function ContactSection() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto" style={{ paddingTop: 24, paddingBottom: 24 }}>
         {/* Header */}
         <div className="reveal flex items-center gap-4 mb-5">
           <div
@@ -69,12 +87,13 @@ export default function ContactSection() {
           {/* Left */}
           <div>
             <h2
-              className="reveal font-bold text-white mb-8"
+              className="reveal font-bold text-white"
               style={{
                 fontFamily: "'Barlow Condensed', system-ui, sans-serif",
                 fontSize: "clamp(2rem, 4vw, 3.2rem)",
                 letterSpacing: "0.06em",
                 lineHeight: 1.15,
+                marginBottom: 12,
               }}
             >
               ESTABLISH
@@ -83,20 +102,32 @@ export default function ContactSection() {
             </h2>
 
             <p
-              className="reveal mb-10"
+              className="reveal"
               style={{
                 color: "#8888aa",
                 fontSize: 15,
                 lineHeight: 1.8,
-                maxWidth: 420,
+                maxWidth: 520,
+                marginBottom: 12,
               }}
             >
-              For sales inquiries, product demonstrations, and authorized procurement.
-              All communications are handled through encrypted channels.
+              For procurement, unit evaluation, and program integration discussions, contact us directly.
+            </p>
+            <p
+              className="reveal"
+              style={{
+                color: "#8888aa",
+                fontSize: 15,
+                lineHeight: 1.8,
+                maxWidth: 520,
+                marginBottom: 16,
+              }}
+            >
+              Meetings, demonstrations, and equipment evaluations can be coordinated directly via email.
             </p>
 
-            {/* Email */}
-            <div className="reveal">
+            {/* Email — copy button */}
+            <div className="reveal relative" style={{ display: "inline-block" }}>
               <div
                 style={{
                   color: "#8888aa",
@@ -109,28 +140,45 @@ export default function ContactSection() {
               >
                 SALES INQUIRIES
               </div>
-              <a
-                href="mailto:sales@ametrine-tech.com"
-                className="font-bold transition-all duration-200"
+              <button
+                onClick={handleCopyEmail}
+                className="btn-press font-bold transition-all duration-200"
                 style={{
                   color: "#FF6B00",
                   fontSize: "clamp(1rem, 2.5vw, 1.5rem)",
                   letterSpacing: "0.04em",
-                  textDecoration: "none",
-                  display: "inline-block",
+                  background: "none",
+                  border: "none",
                   borderBottom: "1px solid rgba(255,107,0,0.3)",
                   paddingBottom: 4,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderBottomColor = "#FF6B00";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.borderBottomColor =
-                    "rgba(255,107,0,0.3)";
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  minHeight: 44,
+                  display: "inline-flex",
+                  alignItems: "center",
                 }}
               >
                 sales@ametrine-tech.com
-              </a>
+              </button>
+
+              {/* Toast */}
+              <span
+                style={{
+                  position: "absolute",
+                  top: -8,
+                  right: -56,
+                  color: "#FFD700",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.2em",
+                  opacity: copied ? 1 : 0,
+                  transform: copied ? "translateY(0)" : "translateY(4px)",
+                  transition: "opacity 0.2s ease, transform 0.2s ease",
+                  pointerEvents: "none",
+                }}
+              >
+                COPIED
+              </span>
             </div>
           </div>
 
@@ -156,6 +204,7 @@ export default function ContactSection() {
                   border: "1px solid rgba(255,107,0,0.12)",
                   padding: "20px 24px",
                   backgroundColor: "#111118",
+                  minHeight: 44,
                 }}
               >
                 <div

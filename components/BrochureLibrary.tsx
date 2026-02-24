@@ -16,19 +16,16 @@ const CATEGORY_MAP: Record<string, Category> = {
   Mobile: "MOBILE",
 };
 
-// Image filename → product title mapping.
-// All files are in /public/images/products/
-// Most match title + ".png"; exceptions noted with comments.
 const IMAGE_MAP: Record<string, string> = {
   "3D SURVIVAL BLANKET":           "3D SURVIVAL BLANKET.png",
   "WP SURVIVAL BLANKET":           "WP SURVIVAL BLANKET.png",
   "ARCTIC OVERGARMENT KIT":        "ARCTIC OVERGARMENT KIT.png",
-  "ARMORED PLATFORM HIDE SITE":    "ARMORD PLATFORM HIDE SITE.png",   // filename typo: ARMORD
-  "FLINT \u2014 PLATFORM ON THE MOVE": "Flint Platform on the move.png", // different casing
+  "ARMORED PLATFORM HIDE SITE":    "ARMORD PLATFORM HIDE SITE.png",
+  "FLINT \u2014 PLATFORM ON THE MOVE": "Flint Platform on the move.png",
   "GAL SUIT":                      "GAL SUIT.png",
   "MAY SUIT":                      "MAY SUIT.png",
   "MSSM COMBAT UNIFORM":           "MSSM COMBAT UNIFORM.png",
-  "OPERATOR HIDE SITE":            "OPERATORS HIDE SITE.png",          // filename has extra S
+  "OPERATOR HIDE SITE":            "OPERATORS HIDE SITE.png",
   "OVERWATCH HIDE SITE":           "OVERWATCH HIDE SITE.png",
   "PONCHO INBAR":                  "PONCHO INBAR.png",
   "PONCHO SAHAR":                  "PONCHO SAHAR.png",
@@ -120,7 +117,6 @@ function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
         }}
         onError={() => setErrored(true)}
       />
-      {/* Dark gradient overlay at bottom */}
       <div
         style={{
           position: "absolute",
@@ -169,11 +165,9 @@ function BrochureCard({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        {/* Product image — 16:9 with hover scale */}
         <ProductImage title={brochure.title} hovered={hovered} />
 
-        {/* Content */}
-        <div className="flex flex-col flex-1 p-5">
+        <div className="flex flex-col flex-1" style={{ padding: "20px 16px" }}>
           {/* Category badge */}
           <div className="mb-3">
             <span
@@ -193,7 +187,7 @@ function BrochureCard({
             </span>
           </div>
 
-          {/* Title — gradient text */}
+          {/* Title */}
           <h3
             className="font-semibold mb-2"
             style={{
@@ -213,20 +207,20 @@ function BrochureCard({
             {brochure.description}
           </p>
 
-          {/* Actions — side by side sm+, stacked mobile */}
+          {/* Actions — 44-48px height buttons with clear spacing */}
           <div className="flex flex-col sm:flex-row gap-3 mt-auto">
             <button
               onClick={handleView}
-              className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
+              className="btn-press flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
               style={{
                 border: "1px solid rgba(255,107,0,0.3)",
                 backgroundColor: "transparent",
                 color: "rgba(255,107,0,0.9)",
-                padding: "10px 16px",
+                padding: "12px 16px",
                 fontSize: 11,
                 letterSpacing: "0.15em",
                 cursor: "pointer",
-                minHeight: 44,
+                minHeight: 46,
                 fontFamily: "inherit",
               }}
               onMouseEnter={(e) => {
@@ -246,16 +240,16 @@ function BrochureCard({
 
             <button
               onClick={handleDownload}
-              className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
+              className="btn-press flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
               style={{
                 border: "1px solid rgba(255,107,0,0.15)",
                 backgroundColor: "rgba(255,107,0,0.08)",
                 color: "#FF6B00",
-                padding: "10px 16px",
+                padding: "12px 16px",
                 fontSize: 11,
                 letterSpacing: "0.15em",
                 cursor: "pointer",
-                minHeight: 44,
+                minHeight: 46,
                 fontFamily: "inherit",
               }}
               onMouseEnter={(e) => {
@@ -275,15 +269,32 @@ function BrochureCard({
   );
 }
 
+function SearchIcon() {
+  return (
+    <svg width="16" height="16" fill="none" stroke="#8888aa" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
 export default function BrochureLibrary() {
   const [activeCategory, setActiveCategory] = useState<Category>("ALL");
+  const [searchQuery, setSearchQuery] = useState("");
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const filtered = (brochuresData as Brochure[]).filter((b) => {
-    if (activeCategory === "ALL") return true;
-    return (CATEGORY_MAP[b.category] ?? b.category.toUpperCase()) === activeCategory;
+    const catMatch = activeCategory === "ALL" || (CATEGORY_MAP[b.category] ?? b.category.toUpperCase()) === activeCategory;
+    if (!catMatch) return false;
+    if (!searchQuery.trim()) return true;
+    const q = searchQuery.toLowerCase();
+    return (
+      b.title.toLowerCase().includes(q) ||
+      b.description.toLowerCase().includes(q) ||
+      b.category.toLowerCase().includes(q)
+    );
   });
 
   const setupObserver = useCallback(() => {
@@ -318,12 +329,12 @@ export default function BrochureLibrary() {
     <section
       id="brochures"
       ref={sectionRef}
-      className="relative py-20 lg:py-32"
-      style={{ backgroundColor: "#08080f" }}
+      className="relative"
+      style={{ backgroundColor: "#08080f", padding: "24px 16px" }}
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto" style={{ paddingTop: 24, paddingBottom: 24 }}>
         <div className="flex items-center gap-4 mb-5">
           <div className="h-px w-10 shrink-0" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
           <span style={{ color: "#FF6B00", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600, textTransform: "uppercase" }}>
@@ -333,7 +344,7 @@ export default function BrochureLibrary() {
         </div>
 
         <h2
-          className="font-bold mb-3"
+          className="font-bold"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
             fontSize: "clamp(2rem, 5vw, 3.5rem)",
@@ -343,23 +354,52 @@ export default function BrochureLibrary() {
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
+            marginBottom: 12,
           }}
         >
           BROCHURE LIBRARY
         </h2>
 
-        <p className="mb-12" style={{ color: "#8888aa", fontSize: 15, lineHeight: 1.7 }}>
+        <p style={{ color: "#8888aa", fontSize: 15, lineHeight: 1.7, marginBottom: 16 }}>
           Select a product to view or download the technical brochure.
         </p>
 
+        {/* Search field */}
+        <div className="relative" style={{ marginBottom: 16, maxWidth: 480 }}>
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            <SearchIcon />
+          </div>
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search system or brochure..."
+            style={{
+              width: "100%",
+              minHeight: 46,
+              padding: "10px 16px 10px 38px",
+              backgroundColor: "#111118",
+              border: "1px solid rgba(240,240,245,0.1)",
+              color: "#f0f0f5",
+              fontSize: 14,
+              borderRadius: 4,
+              outline: "none",
+              fontFamily: "inherit",
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = "rgba(255,215,0,0.4)"; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(240,240,245,0.1)"; }}
+          />
+        </div>
+
         {/* Filter bar */}
-        <div className="flex flex-wrap gap-2 mb-12 items-center">
+        <div className="flex flex-wrap gap-2 items-center" style={{ marginBottom: 16 }}>
           {CATEGORIES.map((cat) => {
             const active = activeCategory === cat;
             return (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
+                className="chip-transition"
                 style={{
                   padding: "8px 20px",
                   fontSize: 10,
@@ -370,8 +410,7 @@ export default function BrochureLibrary() {
                   background: active ? "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" : "transparent",
                   color: active ? "#08080f" : "rgba(240,240,245,0.45)",
                   borderRadius: 999,
-                  transition: "all 0.2s ease",
-                  minHeight: 36,
+                  minHeight: 44,
                   fontFamily: "inherit",
                 }}
                 onMouseEnter={(e) => {
@@ -396,10 +435,16 @@ export default function BrochureLibrary() {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Grid: 1 col mobile, 2 sm, 3 lg (min 340px cards) */}
+        <div
+          className="grid gap-6"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(min(340px, 100%), 1fr))",
+          }}
+        >
           {filtered.map((brochure, i) => (
             <BrochureCard
-              key={`${brochure.id}-${activeCategory}`}
+              key={`${brochure.id}-${activeCategory}-${searchQuery}`}
               brochure={brochure}
               delay={i * 60}
               cardRef={(el) => { cardRefs.current[i] = el; }}
@@ -409,7 +454,7 @@ export default function BrochureLibrary() {
 
         {filtered.length === 0 && (
           <div className="text-center py-24">
-            <span style={{ color: "#8888aa", fontSize: 12, letterSpacing: "0.3em" }}>NO ITEMS IN THIS CATEGORY</span>
+            <span style={{ color: "#8888aa", fontSize: 12, letterSpacing: "0.3em" }}>NO ITEMS FOUND</span>
           </div>
         )}
       </div>

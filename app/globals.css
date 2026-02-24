@@ -10,6 +10,7 @@
   --bg-alt: #0d0d16;
   --text-primary: #f0f0f5;
   --text-secondary: #8888aa;
+  --navbar-h: 72px;
 }
 
 * {
@@ -31,6 +32,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.7;
   overflow-x: hidden;
+}
+
+/* scroll-margin for all sections with id — navbar height + 12px */
+[id] {
+  scroll-margin-top: calc(var(--navbar-h) + 12px);
 }
 
 /* Scrollbar */
@@ -90,6 +96,11 @@ body {
   50%      { opacity: 1; }
 }
 
+@keyframes sectionReveal {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* ── Utility classes ─────────────────────────────────────────── */
 
 .scanlines-overlay {
@@ -112,11 +123,11 @@ body {
   animation: shake 0.5s ease-in-out;
 }
 
-/* Reveal animations */
+/* Reveal animations — 180ms, subtle 10px lift */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(10px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
 }
 .reveal.revealed {
   opacity: 1;
@@ -136,6 +147,9 @@ body {
   border: none;
   cursor: pointer;
   padding: 0;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
 }
 .nav-link::after {
   content: '';
@@ -153,6 +167,13 @@ body {
 .nav-link:hover::after {
   width: 100%;
 }
+/* Active section indicator */
+.nav-link--active {
+  color: #FFD700;
+}
+.nav-link--active::after {
+  width: 100%;
+}
 
 /* Hero animate in */
 .hero-el {
@@ -163,4 +184,27 @@ body {
 .hero-el.in {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Button press feedback */
+.btn-press {
+  transition: transform 0.1s ease;
+}
+.btn-press:active {
+  transform: scale(0.99);
+}
+
+/* Filter chip transition */
+.chip-transition {
+  transition: all 0.14s ease;
+}
+
+/* ── Reduced motion ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
