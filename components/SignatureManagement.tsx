@@ -6,37 +6,14 @@ const CARDS = [
   {
     title: "Full-Spectrum Concealment",
     text: "Optimized reduction of electromagnetic, thermal, and visual signatures across all detection bands — from the far infrared to radar.",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-label="Spectrum waves icon">
-        <path d="M4 10 Q10 5 20 10 Q30 15 36 10" stroke="#FF6B00" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-        <path d="M4 19 Q10 12 20 19 Q30 26 36 19" stroke="#FF6B00" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-        <path d="M4 28 Q10 21 20 28 Q30 35 36 28" stroke="#FF6B00" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-        <path d="M4 36 Q10 30 20 36 Q30 42 36 36" stroke="#FFD700" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.35" />
-      </svg>
-    ),
   },
   {
     title: "Survivability by Design",
     text: "Signature management is not an accessory — it is the foundation of modern survivability. Every solution eliminates the detectable gaps legacy systems leave exposed.",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-label="Shield icon">
-        <path d="M20 3 L35 9 L35 23 C35 31 20 37 20 37 C20 37 5 31 5 23 L5 9 Z" stroke="#FF6B00" strokeWidth="1.8" fill="none" strokeLinejoin="round" />
-        <path d="M20 3 Q27 9 27 16" stroke="#FFD700" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
-        <path d="M20 3 Q13 9 13 16" stroke="#FFD700" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.5" />
-        <circle cx="20" cy="16" r="3.5" stroke="#FF6B00" strokeWidth="1.4" fill="none" opacity="0.7" />
-      </svg>
-    ),
   },
   {
     title: "Passive. Adaptive. Undetectable.",
     text: "No active emissions. No power dependency. Maximum operational freedom with minimum signature — across all environments and threat scenarios.",
-    icon: (
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" aria-label="Eye with slash icon">
-        <ellipse cx="20" cy="20" rx="14" ry="9" stroke="#FF6B00" strokeWidth="1.8" fill="none" />
-        <circle cx="20" cy="20" r="3.5" stroke="#FF6B00" strokeWidth="1.6" fill="none" />
-        <line x1="6" y1="6" x2="34" y2="34" stroke="#FFD700" strokeWidth="1.8" strokeLinecap="round" />
-      </svg>
-    ),
   },
 ];
 
@@ -106,7 +83,6 @@ export default function SignatureManagement() {
               }}
             >
               <div className="absolute top-0 left-0 right-0" style={{ height: 3, background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
-              <div className="mb-6">{card.icon}</div>
               <h3
                 className="mb-4"
                 style={{

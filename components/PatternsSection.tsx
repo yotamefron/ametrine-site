@@ -1,10 +1,99 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+
+type Category = "ALL" | "DESERT" | "GREEN" | "SNOW" | "MARINE" | "URBAN / BOULDER";
+
+const CATEGORIES: Category[] = ["ALL", "DESERT", "GREEN", "SNOW", "MARINE", "URBAN / BOULDER"];
+
+interface Pattern {
+  name: string;
+  file: string;
+  categories: Category[];
+}
+
+const PATTERNS: Pattern[] = [
+  { name: "Desert", file: "Desert.png", categories: ["DESERT"] },
+  { name: "Desert Green", file: "Desert Green.png", categories: ["DESERT"] },
+  { name: "Desert Coyote", file: "Desert Coyote.png", categories: ["DESERT"] },
+  { name: "Ever Green", file: "Ever-Green.png", categories: ["GREEN"] },
+  { name: "Forest Green", file: "Forest Green.png", categories: ["GREEN"] },
+  { name: "Kestrel", file: "Kestrel.png", categories: ["GREEN"] },
+  { name: "Woodland", file: "Woodland.png", categories: ["GREEN"] },
+  { name: "Woodland Brown", file: "Woodland Brown.png", categories: ["GREEN"] },
+  { name: "Urban Green", file: "Urban Green.png", categories: ["GREEN", "URBAN / BOULDER"] },
+  { name: "Urban", file: "Urban.png", categories: ["URBAN / BOULDER"] },
+  { name: "Boulder", file: "Boulder.png", categories: ["URBAN / BOULDER"] },
+  { name: "Marine", file: "Marine.png", categories: ["MARINE"] },
+  { name: "Fresh Snow", file: "Fresh Snow.png", categories: ["SNOW"] },
+  { name: "Snirt Snow", file: "Snirt Snow.png", categories: ["SNOW"] },
+];
+
+function ChevronLeft() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="15 18 9 12 15 6" />
+    </svg>
+  );
+}
+
+function ChevronRight() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="9 6 15 12 9 18" />
+    </svg>
+  );
+}
+
+function PatternCard({ pattern }: { pattern: Pattern }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="flex-shrink-0 snap-start"
+      style={{ width: 200 }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        className="relative overflow-hidden"
+        style={{
+          width: 200,
+          height: 200,
+          border: hovered ? "1px solid rgba(255,215,0,0.5)" : "1px solid rgba(240,240,245,0.08)",
+          transition: "border-color 0.2s ease",
+        }}
+      >
+        <Image
+          src={`/pattern/${pattern.file}`}
+          alt={pattern.name}
+          fill
+          sizes="200px"
+          className="object-cover"
+        />
+      </div>
+      <p
+        style={{
+          color: "#f0f0f5",
+          fontSize: 11,
+          fontWeight: 600,
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          marginTop: 10,
+          textAlign: "center",
+        }}
+      >
+        {pattern.name}
+      </p>
+    </div>
+  );
+}
 
 export default function PatternsSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [hovered, setHovered] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeCategory, setActiveCategory] = useState<Category>("ALL");
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -22,8 +111,24 @@ export default function PatternsSection() {
     return () => observer.disconnect();
   }, []);
 
-  const handleView = () => window.open("/brochures/patterns_catalog.pdf", "_blank");
-  const handleDownload = () => window.open("/brochures/patterns_catalog.pdf", "_blank");
+  const filtered = PATTERNS.filter((p) => {
+    if (activeCategory === "ALL") return true;
+    return p.categories.includes(activeCategory);
+  });
+
+  // Reset scroll position when filter changes
+  useEffect(() => {
+    if (scrollRef.current) scrollRef.current.scrollLeft = 0;
+  }, [activeCategory]);
+
+  const scroll = (direction: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = 220;
+    scrollRef.current.scrollBy({
+      left: direction === "left" ? -amount : amount,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section
@@ -35,9 +140,7 @@ export default function PatternsSection() {
       {/* Top gradient divider */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
-        style={{
-          background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
-        }}
+        style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }}
       />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
@@ -77,208 +180,144 @@ export default function PatternsSection() {
             backgroundClip: "text",
           }}
         >
-          PATTERN CATALOG
+          CAMOUFLAGE PATTERNS
         </h2>
         <p
-          className="reveal mb-14"
-          style={{ color: "#8888aa", fontSize: 15, lineHeight: 1.7 }}
+          className="reveal mb-10"
+          style={{
+            color: "#8888aa",
+            fontSize: 11,
+            fontWeight: 600,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+          }}
         >
-          Full terrain-matched pattern library for AMETRINE concealment systems.
+          Engineered for any terrain &mdash; custom configurations available
         </p>
 
-        {/* Featured wide card */}
-        <div
-          className="reveal relative flex flex-col lg:flex-row"
-          style={{
-            backgroundColor: "#111118",
-            border: "1px solid rgba(255,107,0,0.1)",
-            transform: hovered ? "translateY(-4px)" : "translateY(0)",
-            boxShadow: hovered ? "0 0 32px rgba(255,215,0,0.1)" : "none",
-            transition: "transform 0.3s ease, box-shadow 0.3s ease",
-          }}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          {/* Gradient top border */}
-          <div
-            className="absolute top-0 left-0 right-0"
-            style={{
-              height: 3,
-              background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
-            }}
-          />
-
-          {/* Cover area */}
-          <div
-            className="relative flex items-center justify-center"
-            style={{
-              width: "100%",
-              minHeight: 220,
-              backgroundColor: "#0d0d16",
-              backgroundImage:
-                "repeating-linear-gradient(-45deg, rgba(255,107,0,0.03) 0, rgba(255,107,0,0.03) 1px, transparent 0, transparent 50%)",
-              backgroundSize: "18px 18px",
-            }}
-          >
-            {/* Corner accents */}
-            <div
-              className="absolute top-0 left-0 w-6 h-6"
-              style={{
-                borderTop: "1px solid rgba(255,107,0,0.25)",
-                borderLeft: "1px solid rgba(255,107,0,0.25)",
-              }}
-            />
-            <div
-              className="absolute top-0 right-0 w-6 h-6"
-              style={{
-                borderTop: "1px solid rgba(255,107,0,0.25)",
-                borderRight: "1px solid rgba(255,107,0,0.25)",
-              }}
-            />
-            <div
-              className="absolute bottom-0 left-0 w-6 h-6"
-              style={{
-                borderBottom: "1px solid rgba(255,107,0,0.25)",
-                borderLeft: "1px solid rgba(255,107,0,0.25)",
-              }}
-            />
-            <div
-              className="absolute bottom-0 right-0 w-6 h-6"
-              style={{
-                borderBottom: "1px solid rgba(255,107,0,0.25)",
-                borderRight: "1px solid rgba(255,107,0,0.25)",
-              }}
-            />
-
-            <div className="text-center px-8">
-              <div
-                className="font-black mb-2"
+        {/* Category filter tabs */}
+        <div className="reveal flex flex-wrap gap-2 mb-10">
+          {CATEGORIES.map((cat) => {
+            const active = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
                 style={{
-                  background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                  fontSize: "clamp(1.2rem, 3vw, 2rem)",
-                  letterSpacing: "0.12em",
-                  fontFamily: "'Barlow Condensed', system-ui, sans-serif",
-                }}
-              >
-                PATTERNS CATALOG
-              </div>
-              <div
-                style={{
-                  color: "#8888aa",
+                  padding: "8px 20px",
                   fontSize: 10,
                   fontWeight: 700,
-                  letterSpacing: "0.25em",
-                }}
-              >
-                MULTI-TERRAIN
-              </div>
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="flex flex-col justify-between p-8 lg:min-w-[360px]">
-            <div>
-              <span
-                style={{
-                  display: "inline-block",
-                  color: "#FF6B00",
-                  backgroundColor: "rgba(255,107,0,0.08)",
-                  border: "1px solid rgba(255,107,0,0.2)",
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: "0.12em",
-                  padding: "3px 8px",
-                  marginBottom: 14,
-                  textTransform: "uppercase",
-                }}
-              >
-                PATTERNS
-              </span>
-              <h3
-                className="font-bold mb-3"
-                style={{
-                  fontSize: 18,
-                  letterSpacing: "0.05em",
-                  lineHeight: 1.3,
-                  background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                PATTERNS CATALOG
-              </h3>
-              <p
-                style={{
-                  color: "#8888aa",
-                  fontSize: 15,
-                  lineHeight: 1.7,
-                }}
-              >
-                Comprehensive terrain-matched pattern library covering desert, woodland, arctic,
-                urban, and multispectral concealment configurations for all AMETRINE systems.
-              </p>
-            </div>
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-8">
-              <button
-                onClick={handleView}
-                className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
-                style={{
-                  border: "1px solid rgba(255,107,0,0.3)",
-                  backgroundColor: "transparent",
-                  color: "rgba(255,107,0,0.85)",
-                  padding: "10px 24px",
-                  fontSize: 11,
-                  letterSpacing: "0.2em",
+                  letterSpacing: "0.18em",
                   cursor: "pointer",
-                  minHeight: 44,
+                  border: active ? "1px solid transparent" : "1px solid rgba(255,215,0,0.3)",
+                  background: active
+                    ? "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)"
+                    : "transparent",
+                  color: active ? "#08080f" : "rgba(255,215,0,0.7)",
+                  borderRadius: 999,
+                  transition: "all 0.2s ease",
+                  minHeight: 36,
+                  fontFamily: "inherit",
                 }}
                 onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = "#FF6B00";
-                  (e.currentTarget as HTMLButtonElement).style.color = "#fff";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "#FF6B00";
+                  if (!active) {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "#FFD700";
+                    (e.currentTarget as HTMLButtonElement).style.color = "#FFD700";
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor = "transparent";
-                  (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,107,0,0.85)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor =
-                    "rgba(255,107,0,0.3)";
+                  if (!active) {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,215,0,0.3)";
+                    (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,215,0,0.7)";
+                  }
                 }}
               >
-                VIEW
+                {cat}
               </button>
-              <button
-                onClick={handleDownload}
-                className="flex-1 flex items-center justify-center gap-2 font-bold transition-all duration-200"
-                style={{
-                  border: "1px solid rgba(255,107,0,0.15)",
-                  backgroundColor: "rgba(255,107,0,0.08)",
-                  color: "#FF6B00",
-                  padding: "10px 24px",
-                  fontSize: 11,
-                  letterSpacing: "0.2em",
-                  cursor: "pointer",
-                  minHeight: 44,
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                    "rgba(255,107,0,0.16)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-                    "rgba(255,107,0,0.08)";
-                }}
-              >
-                DOWNLOAD
-              </button>
-            </div>
+            );
+          })}
+        </div>
+
+        {/* Carousel */}
+        <div className="reveal relative">
+          {/* Left arrow */}
+          <button
+            onClick={() => scroll("left")}
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 items-center justify-center"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              backgroundColor: "rgba(8,8,15,0.85)",
+              border: "1px solid rgba(255,215,0,0.3)",
+              color: "#FFD700",
+              cursor: "pointer",
+              backdropFilter: "blur(8px)",
+            }}
+            aria-label="Scroll left"
+          >
+            <ChevronLeft />
+          </button>
+
+          {/* Right arrow */}
+          <button
+            onClick={() => scroll("right")}
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 items-center justify-center"
+            style={{
+              width: 40,
+              height: 40,
+              borderRadius: "50%",
+              backgroundColor: "rgba(8,8,15,0.85)",
+              border: "1px solid rgba(255,215,0,0.3)",
+              color: "#FFD700",
+              cursor: "pointer",
+              backdropFilter: "blur(8px)",
+            }}
+            aria-label="Scroll right"
+          >
+            <ChevronRight />
+          </button>
+
+          {/* Scrollable track */}
+          <div
+            ref={scrollRef}
+            className="flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
+            {filtered.map((pattern) => (
+              <PatternCard key={pattern.file} pattern={pattern} />
+            ))}
           </div>
         </div>
+
+        {/* Contact for custom pattern requests */}
+        <p
+          className="reveal mt-10"
+          style={{
+            color: "#8888aa",
+            fontSize: 12,
+            letterSpacing: "0.06em",
+            lineHeight: 1.7,
+          }}
+        >
+          Custom pattern configurations available upon request &mdash;{" "}
+          <a
+            href="mailto:sales@ametrine-tech.com"
+            style={{ color: "#FF6B00", textDecoration: "none" }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.textDecoration = "underline";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.textDecoration = "none";
+            }}
+          >
+            contact sales@ametrine-tech.com
+          </a>
+        </p>
       </div>
     </section>
   );

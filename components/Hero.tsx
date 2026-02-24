@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function Hero() {
   const elementsRef = useRef<(HTMLElement | null)[]>([]);
+  const [showScroll, setShowScroll] = useState(true);
 
   useEffect(() => {
     const delays = [100, 260, 420, 580, 740];
@@ -11,6 +12,13 @@ export default function Hero() {
       if (!el) return;
       setTimeout(() => el.classList.add("in"), delays[i] ?? 200 * i);
     });
+  }, []);
+
+  // Hide scroll indicator after 100px scroll
+  useEffect(() => {
+    const onScroll = () => setShowScroll(window.scrollY < 100);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   const setRef = (i: number) => (el: HTMLElement | null) => {
@@ -99,7 +107,7 @@ export default function Hero() {
             textTransform: "uppercase",
           }}
         >
-          Complete Product Catalog &mdash; Multispectral Signature Management Systems
+          Product Catalog
         </p>
 
         {/* CTA */}
@@ -127,6 +135,40 @@ export default function Hero() {
             EXPLORE OUR SOLUTIONS
           </button>
         </div>
+      </div>
+
+      {/* Scroll indicator — disappears after 100px scroll */}
+      <div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-10"
+        style={{
+          opacity: showScroll ? 0.6 : 0,
+          transition: "opacity 0.4s ease",
+        }}
+      >
+        <span
+          style={{
+            color: "#FFD700",
+            fontSize: 9,
+            fontWeight: 700,
+            letterSpacing: "0.3em",
+            textTransform: "uppercase",
+          }}
+        >
+          SCROLL
+        </span>
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#FFD700"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          style={{ animation: "hero-bounce 2s ease-in-out infinite" }}
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
       </div>
     </section>
   );

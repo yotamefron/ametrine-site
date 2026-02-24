@@ -7,18 +7,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
     const entry = {
+      name,
       email,
       organization,
-      name,
       timestamp: new Date().toISOString(),
     };
-    try {
-      const { kv } = await import("@vercel/kv");
-      await kv.set(`lead:${email}`, JSON.stringify(entry));
-      await kv.lpush("leads", JSON.stringify(entry));
-    } catch {
-      console.log("KV not configured, lead data:", entry);
+
+    // Send to Make.com webhook → Google Sheets
+    const MAKE_WEBHOOK = process.env.MAKE_WEBHOOK_URL || "";
+    if (MAKE_WEBHOOK) {
+      await fetch(MAKE_WEBHOOK, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(entry),
+      });
     }
+
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
