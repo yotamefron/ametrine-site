@@ -334,7 +334,7 @@ export default function BrochureLibrary() {
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
 
-      <div className="max-w-7xl mx-auto" style={{ paddingTop: 24, paddingBottom: 24 }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "24px 24px" }}>
         <div className="flex items-center gap-4 mb-5">
           <div className="h-px w-10 shrink-0" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
           <span style={{ color: "#FF6B00", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600, textTransform: "uppercase" }}>

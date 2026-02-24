@@ -1,33 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
-export default function Hero() {
-  const elementsRef = useRef<(HTMLElement | null)[]>([]);
-  const [showScroll, setShowScroll] = useState(true);
+/** Top portion: logo + eyebrow label. Always first content after the fixed navbar. */
+export function HeroTop() {
+  const logoRef = useRef<HTMLDivElement>(null);
+  const eyebrowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const delays = [100, 260, 420, 580, 740, 900];
-    elementsRef.current.forEach((el, i) => {
+    const delays = [100, 260];
+    [logoRef.current, eyebrowRef.current].forEach((el, i) => {
       if (!el) return;
-      setTimeout(() => el.classList.add("in"), delays[i] ?? 200 * i);
+      setTimeout(() => el.classList.add("in"), delays[i]);
     });
   }, []);
 
-  // Hide scroll cue after 100px scroll
-  useEffect(() => {
-    const onScroll = () => setShowScroll(window.scrollY < 100);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const setRef = (i: number) => (el: HTMLElement | null) => {
-    elementsRef.current[i] = el;
-  };
-
   return (
     <section
-      className="relative flex flex-col overflow-hidden md:min-h-[85vh]"
+      className="relative flex flex-col overflow-hidden"
       style={{ backgroundColor: "#08080f" }}
     >
       {/* Animated radial glow */}
@@ -51,19 +41,15 @@ export default function Hero() {
         }}
       />
 
-      {/* Mobile navbar spacer — on desktop VideoSection handles this */}
-      <div className="h-[72px] flex-shrink-0 md:hidden" />
+      {/* Navbar spacer — always visible (same order mobile + desktop) */}
+      <div className="h-[72px] flex-shrink-0" />
 
-      {/* Main content — reduced mobile padding (~35% less) */}
+      {/* Logo + eyebrow */}
       <div
-        className="relative z-10 flex flex-col items-center justify-center flex-1 text-center space-y-4 md:space-y-6"
-        style={{ padding: "16px 16px 24px", }}
+        className="relative z-10 flex flex-col items-center text-center space-y-4"
+        style={{ padding: "24px 16px 20px" }}
       >
-        {/* Desktop extra top padding */}
-        <div className="hidden md:block" style={{ height: 40 }} />
-
-        {/* Logo */}
-        <div ref={setRef(0)} className="hero-el">
+        <div ref={logoRef} className="hero-el">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo-white.png"
@@ -72,18 +58,80 @@ export default function Hero() {
           />
         </div>
 
-        {/* Eyebrow */}
-        <div ref={setRef(1)} className="hero-el flex items-center justify-center gap-4">
+        <div ref={eyebrowRef} className="hero-el flex items-center justify-center gap-4">
           <div className="h-px w-8" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
           <span style={{ color: "#FF6B00", fontSize: 11, letterSpacing: "0.14em", fontWeight: 600, textTransform: "uppercase" }}>
             Multispectral Signature Management
           </span>
           <div className="h-px w-8" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
         </div>
+      </div>
+    </section>
+  );
+}
 
-        {/* Headline — gradient text */}
+/** Bottom portion: BE INVISIBLE + supporting text + CTA. Rendered after VideoSection. */
+export function HeroBottom() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const elementsRef = useRef<(HTMLElement | null)[]>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          const delays = [0, 160, 320, 480, 640];
+          elementsRef.current.forEach((el, i) => {
+            if (!el) return;
+            setTimeout(() => el.classList.add("in"), delays[i] ?? 160 * i);
+          });
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  const setRef = (i: number) => (el: HTMLElement | null) => {
+    elementsRef.current[i] = el;
+  };
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative flex flex-col overflow-hidden"
+      style={{ backgroundColor: "#08080f" }}
+    >
+      {/* Animated radial glow */}
+      <div
+        className="absolute pointer-events-none"
+        style={{
+          inset: 0,
+          background:
+            "radial-gradient(ellipse 55% 45% at 50% 50%, rgba(255,215,0,0.06) 0%, rgba(123,47,190,0.04) 50%, transparent 70%)",
+          animation: "pulse-bg 12s ease-in-out infinite",
+        }}
+      />
+
+      {/* Subtle grid texture */}
+      <div
+        className="absolute inset-0 opacity-[0.015] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(240,240,245,1) 1px, transparent 1px), linear-gradient(90deg, rgba(240,240,245,1) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+
+      {/* Content */}
+      <div
+        className="relative z-10 flex flex-col items-center text-center space-y-4 md:space-y-6"
+        style={{ padding: "24px 16px 40px" }}
+      >
+        {/* Headline */}
         <h1
-          ref={setRef(2)}
+          ref={setRef(0)}
           className="hero-el font-black leading-none"
           style={{
             fontFamily: "'Barlow Condensed', system-ui, sans-serif",
@@ -99,9 +147,9 @@ export default function Hero() {
           BE INVISIBLE
         </h1>
 
-        {/* Supporting description line */}
+        {/* Supporting description */}
         <p
-          ref={setRef(3)}
+          ref={setRef(1)}
           className="hero-el"
           style={{
             color: "#c0c0d0",
@@ -116,7 +164,7 @@ export default function Hero() {
 
         {/* Catalog subtitle */}
         <p
-          ref={setRef(4)}
+          ref={setRef(2)}
           className="hero-el"
           style={{
             color: "#FF6B00",
@@ -132,9 +180,9 @@ export default function Hero() {
 
         {/* CTA */}
         <div
-          ref={setRef(5)}
+          ref={setRef(3)}
           className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4"
-          style={{ marginTop: 16 }}
+          style={{ marginTop: 8 }}
         >
           <button
             onClick={() => document.getElementById("brochures")?.scrollIntoView({ behavior: "smooth" })}
@@ -156,43 +204,6 @@ export default function Hero() {
             EXPLORE OUR SOLUTIONS
           </button>
         </div>
-
-        {/* Desktop extra bottom padding */}
-        <div className="hidden md:block" style={{ height: 48 }} />
-      </div>
-
-      {/* Scroll cue — bottom center, disappears after 100px */}
-      <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 pointer-events-none z-10 flex flex-col items-center gap-1"
-        style={{
-          opacity: showScroll ? 1 : 0,
-          transition: "opacity 0.4s ease",
-        }}
-      >
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#FFD700"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          style={{ animation: "hero-pulse 3s ease-in-out infinite" }}
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
-        <span
-          style={{
-            color: "#FFD700",
-            fontSize: 9,
-            letterSpacing: "0.2em",
-            opacity: 0.5,
-            animation: "hero-pulse 3s ease-in-out infinite",
-          }}
-        >
-          Operational Overview
-        </span>
       </div>
     </section>
   );

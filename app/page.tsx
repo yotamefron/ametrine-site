@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import EntryGate from "@/components/EntryGate";
 import Navbar from "@/components/Navbar";
 import VideoSection from "@/components/VideoSection";
-import Hero from "@/components/Hero";
+import { HeroTop, HeroBottom } from "@/components/Hero";
 import SignatureManagement from "@/components/SignatureManagement";
 import TransitionBlock from "@/components/TransitionBlock";
 import BrandDivider from "@/components/BrandDivider";
@@ -12,6 +12,44 @@ import BrochureLibrary from "@/components/BrochureLibrary";
 import PatternsSection from "@/components/PatternsSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+
+function ScrollIndicator() {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY < 150);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: 32,
+        right: 16,
+        zIndex: 50,
+        opacity: visible ? 0.6 : 0,
+        transition: "opacity 0.4s ease",
+        pointerEvents: "none",
+        animation: "scroll-pulse 2s ease-in-out infinite",
+      }}
+    >
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="#FFD700"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <polyline points="6 9 12 15 18 9" />
+      </svg>
+    </div>
+  );
+}
 
 export default function Home() {
   const [unlocked, setUnlocked] = useState(false);
@@ -41,16 +79,18 @@ export default function Home() {
       {unlocked && (
         <div className="min-h-screen" style={{ backgroundColor: "#08080f" }}>
           <Navbar />
+          <ScrollIndicator />
           <main>
             {/*
-              Mobile: Hero first (text loads before video), Video below.
-              Desktop: Video first (at top with navbar clearance), Hero below.
-              flex-col-reverse reverses the visual order on mobile only.
+              Section order — identical on mobile and desktop:
+              1. HeroTop (logo + label)
+              2. VideoSection
+              3. HeroBottom (BE INVISIBLE + CTA)
+              4. Everything else
             */}
-            <div className="flex flex-col-reverse md:flex-col">
-              <VideoSection />
-              <Hero />
-            </div>
+            <HeroTop />
+            <VideoSection />
+            <HeroBottom />
             <SignatureManagement />
             <TransitionBlock />
             <BrandDivider />
