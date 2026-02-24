@@ -137,35 +137,24 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Scroll indicator — disappears after 100px scroll */}
+      {/* Scroll indicator — bottom-right, disappears after 100px scroll */}
       <div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none z-10"
+        className="absolute bottom-8 right-8 pointer-events-none z-10"
         style={{
-          opacity: showScroll ? 0.6 : 0,
+          opacity: showScroll ? 1 : 0,
           transition: "opacity 0.4s ease",
         }}
       >
-        <span
-          style={{
-            color: "#FFD700",
-            fontSize: 9,
-            fontWeight: 700,
-            letterSpacing: "0.3em",
-            textTransform: "uppercase",
-          }}
-        >
-          SCROLL
-        </span>
         <svg
-          width="16"
-          height="16"
+          width="14"
+          height="14"
           viewBox="0 0 24 24"
           fill="none"
           stroke="#FFD700"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ animation: "hero-bounce 2s ease-in-out infinite" }}
+          style={{ animation: "hero-pulse 3s ease-in-out infinite" }}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
