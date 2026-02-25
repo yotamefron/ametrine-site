@@ -25,7 +25,7 @@ export default function VideoSection() {
       id="video"
       ref={sectionRef}
       className="relative"
-      style={{ backgroundColor: "#08080f" }}
+      style={{ backgroundColor: "#08080f", zIndex: 1 }}
     >
       {/* Video container — always centered, max-width 1400 */}
       <div className="w-full" style={{ maxWidth: 1400, margin: "0 auto" }}>

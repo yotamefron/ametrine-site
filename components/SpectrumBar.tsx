@@ -1,16 +1,15 @@
 "use client";
 
 const SEGMENTS = [
-  { label: "UV",                           color: "linear-gradient(90deg, #C850C0, #8B00FF)", flex: 3  },
-  { label: "VISUAL",                       color: "linear-gradient(90deg, #FF6B00, #FFD700)", flex: 8  },
-  { label: "NEAR INFRARED",               color: "#8B0000",                                  flex: 10 },
-  { label: "SHORT WAVE INFRARED (SWIR)",  color: "#CC0000",                                  flex: 12 },
-  { label: "MID WAVE INFRARED (MWIR)",    color: "#990000",                                  flex: 10 },
-  { label: "LONG WAVE INFRARED (LWIR)",   color: "#CC2244",                                  flex: 15 },
-  { label: "RADAR",                        color: "#9966AA",                                  flex: 42 },
+  { label: "UV",                          flex: 3  },
+  { label: "VISUAL",                      flex: 8  },
+  { label: "NEAR INFRARED",              flex: 10 },
+  { label: "SHORT WAVE INFRARED (SWIR)", flex: 12 },
+  { label: "MID WAVE INFRARED (MWIR)",   flex: 10 },
+  { label: "LONG WAVE INFRARED (LWIR)",  flex: 15 },
+  { label: "RADAR",                       flex: 42 },
 ];
 
-// Cumulative % at each boundary (based on flex totals: 3,8,10,12,10,15,42 = 100)
 const MARKERS = [
   { label: "360nm", pct: 0   },
   { label: "400nm", pct: 3   },
@@ -22,9 +21,30 @@ const MARKERS = [
   { label: "1m",    pct: 100 },
 ];
 
+// Divider positions (between segments, cumulative %)
+const DIVIDERS = [3, 11, 21, 33, 43, 58];
+
+const BAR_GRADIENT = `linear-gradient(to right,
+  #8B00FF 0%,
+  #4400FF 3%,
+  #0000FF 5%,
+  #0066FF 8%,
+  #00CCFF 11%,
+  #00FF88 14%,
+  #AAFF00 17%,
+  #FFD700 20%,
+  #FF6B00 23%,
+  #CC0000 28%,
+  #990000 45%,
+  #880000 58%,
+  #AA1133 72%,
+  #9966AA 80%,
+  #7744AA 100%
+)`;
+
 export default function SpectrumBar() {
   return (
-    <section style={{ backgroundColor: "#08080f", padding: "20px 16px 28px" }}>
+    <section style={{ backgroundColor: "#08080f", padding: "20px 16px 28px", position: "relative", zIndex: 1 }}>
       <div style={{ maxWidth: 1400, margin: "0 auto" }}>
 
         {/* Title */}
@@ -42,7 +62,7 @@ export default function SpectrumBar() {
           MULTISPECTRAL COVERAGE
         </p>
 
-        {/* Scrollable on mobile, full-width on desktop */}
+        {/* Scrollable on mobile */}
         <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
           <div style={{ minWidth: 600 }}>
 
@@ -71,21 +91,27 @@ export default function SpectrumBar() {
               ))}
             </div>
 
-            {/* Color bar */}
+            {/* Color bar — single continuous gradient */}
             <div
               style={{
-                display: "flex",
+                position: "relative",
                 height: 56,
                 borderRadius: 4,
                 overflow: "hidden",
+                background: BAR_GRADIENT,
               }}
             >
-              {SEGMENTS.map((seg) => (
+              {/* Thin white dividers between segments */}
+              {DIVIDERS.map((pct) => (
                 <div
-                  key={seg.label}
+                  key={pct}
                   style={{
-                    flex: seg.flex,
-                    background: seg.color,
+                    position: "absolute",
+                    left: `${pct}%`,
+                    top: 0,
+                    bottom: 0,
+                    width: 1,
+                    backgroundColor: "rgba(255,255,255,0.3)",
                   }}
                 />
               ))}

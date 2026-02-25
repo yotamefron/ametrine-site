@@ -49,7 +49,7 @@ export default function ContactSection() {
       id="contact"
       ref={sectionRef}
       className="relative"
-      style={{ backgroundColor: "#0d0d16", padding: "24px 16px" }}
+      style={{ backgroundColor: "#0d0d16", padding: "24px 16px", zIndex: 1 }}
     >
       {/* Top gradient divider */}
       <div

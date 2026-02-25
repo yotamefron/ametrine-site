@@ -18,7 +18,7 @@ export function HeroTop() {
   return (
     <section
       className="relative flex flex-col overflow-hidden"
-      style={{ backgroundColor: "#08080f" }}
+      style={{ backgroundColor: "#08080f", zIndex: 1 }}
     >
       {/* Animated radial glow */}
       <div
@@ -101,7 +101,7 @@ export function HeroBottom() {
     <section
       ref={sectionRef}
       className="relative flex flex-col overflow-hidden"
-      style={{ backgroundColor: "#08080f" }}
+      style={{ backgroundColor: "#08080f", zIndex: 1 }}
     >
       {/* Animated radial glow */}
       <div

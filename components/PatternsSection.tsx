@@ -176,7 +176,7 @@ export default function PatternsSection() {
       id="patterns"
       ref={sectionRef}
       className="relative"
-      style={{ backgroundColor: "#0d0d16", padding: "24px 16px" }}
+      style={{ backgroundColor: "#0d0d16", padding: "24px 16px", zIndex: 1 }}
     >
       <div
         className="absolute top-0 left-0 right-0 h-px"

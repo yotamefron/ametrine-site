@@ -32,7 +32,7 @@ export default function SignatureManagement() {
       id="mssm"
       ref={sectionRef}
       className="relative"
-      style={{ backgroundColor: "#08080f", padding: "24px 16px 24px" }}
+      style={{ backgroundColor: "#08080f", padding: "24px 16px 24px", zIndex: 1 }}
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
 

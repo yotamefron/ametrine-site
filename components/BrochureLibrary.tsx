@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import brochuresData from "@/data/brochures.json";
 
@@ -91,6 +92,70 @@ function ImagePlaceholder({ title }: { title: string }) {
   );
 }
 
+function Lightbox({ title, src, onClose }: { title: string; src: string; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed", inset: 0, zIndex: 9999,
+        backgroundColor: "rgba(0,0,0,0.92)",
+        display: "flex", flexDirection: "column",
+        alignItems: "center", justifyContent: "center",
+        animation: "fadeIn 0.2s ease",
+        cursor: "pointer",
+      }}
+    >
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        style={{
+          position: "absolute", top: 20, right: 20,
+          background: "none", border: "none", cursor: "pointer",
+          color: "#FFD700", fontSize: 28, lineHeight: 1,
+          minWidth: 44, minHeight: 44,
+          display: "grid", placeItems: "center",
+        }}
+        aria-label="Close"
+      >
+        &#10005;
+      </button>
+      {/* Image */}
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{ position: "relative", maxWidth: "90vw", maxHeight: "85vh", cursor: "default" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={title}
+          style={{ maxWidth: "90vw", maxHeight: "85vh", objectFit: "contain", display: "block" }}
+        />
+      </div>
+      <p
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          color: "#FFD700", fontSize: 13, fontWeight: 700,
+          letterSpacing: "0.15em", marginTop: 16, textAlign: "center",
+          cursor: "default",
+        }}
+      >
+        {title}
+      </p>
+    </div>,
+    document.body,
+  );
+}
+
 function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
   const [errored, setErrored] = useState(false);
   const filename = IMAGE_MAP[title];
@@ -140,6 +205,7 @@ function BrochureCard({
   cardRef: (el: HTMLDivElement | null) => void;
 }) {
   const [hovered, setHovered] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const catLabel = CATEGORY_MAP[brochure.category] ?? brochure.category.toUpperCase();
 
   const handleView = () => window.open(brochure.driveUrl, "_blank");
@@ -148,10 +214,23 @@ function BrochureCard({
     if (fileId) window.open(`https://drive.google.com/uc?export=download&id=${fileId}`, "_blank");
   };
 
+  const filename = IMAGE_MAP[brochure.title];
+  const imageSrc = filename ? `/images/products/${filename}` : null;
+  const handleImageClick = () => {
+    if (!imageSrc || typeof window === "undefined") return;
+    // Desktop only: open lightbox when screen >= 768px
+    if (window.innerWidth >= 768) setLightboxOpen(true);
+  };
+
   return (
     <div ref={cardRef} className="reveal flex flex-col" style={{ transitionDelay: `${delay}ms` }}>
       {/* Gradient top border */}
       <div style={{ height: 3, background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)", flexShrink: 0 }} />
+
+      {/* Lightbox portal (desktop only) */}
+      {lightboxOpen && imageSrc && (
+        <Lightbox title={brochure.title} src={imageSrc} onClose={() => setLightboxOpen(false)} />
+      )}
 
       {/* Card body */}
       <div
@@ -165,7 +244,10 @@ function BrochureCard({
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
-        <ProductImage title={brochure.title} hovered={hovered} />
+        {/* Clickable image wrapper — opens lightbox on desktop */}
+        <div onClick={handleImageClick} style={{ cursor: imageSrc ? "zoom-in" : "default" }}>
+          <ProductImage title={brochure.title} hovered={hovered} />
+        </div>
 
         <div className="flex flex-col flex-1" style={{ padding: "20px 16px" }}>
           {/* Category badge */}
@@ -331,9 +413,10 @@ export default function BrochureLibrary() {
       ref={sectionRef}
       className="relative"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(8,8,8,0.85), rgba(8,8,8,0.7) 50%, rgba(8,8,8,0.85)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0 L60 17.3 L60 52 L30 69.3 L0 52 L0 17.3Z' fill='none' stroke='%231a3a1a' stroke-width='0.8'/%3E%3Cpath d='M30 52 L60 69.3 L60 104 L30 121.3 L0 104 L0 69.3Z' fill='none' stroke='%231a3a1a' stroke-width='0.8'/%3E%3C/svg%3E")`,
-        backgroundColor: "#080808",
+        backgroundColor: "#08080f",
         padding: "24px 16px",
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
