@@ -162,25 +162,9 @@ export function HeroBottom() {
           Ametrine develops integrated multispectral signature management systems across UV, VIS, NIR, thermal, and radar domains.
         </p>
 
-        {/* Catalog subtitle */}
-        <p
-          ref={setRef(2)}
-          className="hero-el"
-          style={{
-            color: "#FF6B00",
-            fontSize: "clamp(0.65rem, 1.4vw, 0.8rem)",
-            fontWeight: 600,
-            letterSpacing: "0.22em",
-            lineHeight: 1.4,
-            textTransform: "uppercase",
-          }}
-        >
-          Product Catalog
-        </p>
-
         {/* CTA */}
         <div
-          ref={setRef(3)}
+          ref={setRef(2)}
           className="hero-el flex flex-col sm:flex-row items-center justify-center gap-4"
           style={{ marginTop: 8 }}
         >
@@ -201,7 +185,7 @@ export function HeroBottom() {
               fontWeight: 700,
             }}
           >
-            EXPLORE OUR SOLUTIONS
+            OUR SOLUTIONS CATALOG
           </button>
         </div>
       </div>
