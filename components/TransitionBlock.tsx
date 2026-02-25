@@ -32,7 +32,7 @@ export default function TransitionBlock() {
     <section
       ref={sectionRef}
       className="relative"
-      style={{ backgroundColor: "#08080f", padding: "24px 16px" }}
+      style={{ backgroundColor: "rgba(8,8,15,0.95)", padding: "24px 16px" }}
     >
       <div className="max-w-7xl mx-auto" style={{ paddingTop: 8, paddingBottom: 8 }}>
         <div className="flex flex-col" style={{ gap: 11 }}>

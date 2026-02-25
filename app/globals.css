@@ -41,24 +41,21 @@ body::before {
   position: fixed;
   inset: 0;
   z-index: 0;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 2 L54 17 L54 47 L28 62 L2 47 L2 17 Z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3Cpath d='M28 52 L54 67 L54 97 L28 112 L2 97 L2 67 Z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3Cpath d='M56 27 L82 42 L82 72 L56 87 L30 72 L30 42 Z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3Cpath d='M0 27 L26 42 L26 72 L0 87 L-26 72 L-26 42 Z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E");
+  background-size: 56px 100px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, black 100%);
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, transparent 40%, black 100%);
   pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='70' height='80' viewBox='0 0 70 80'%3E%3Cpolygon points='35,2 68,20 68,56 35,74 2,56 2,20' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E");
-  background-size: 70px 80px;
-  opacity: 1;
-  -webkit-mask-image: radial-gradient(ellipse 80% 80% at center,
-    transparent 0%,
-    transparent 35%,
-    rgba(0,0,0,0.15) 50%,
-    rgba(0,0,0,0.5) 65%,
-    rgba(0,0,0,0.85) 80%,
-    black 100%);
-  mask-image: radial-gradient(ellipse 80% 80% at center,
-    transparent 0%,
-    transparent 35%,
-    rgba(0,0,0,0.15) 50%,
-    rgba(0,0,0,0.5) 65%,
-    rgba(0,0,0,0.85) 80%,
-    black 100%);
+}
+
+/* Hide scrollbar for spectrum bar mobile scroll */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 /* scroll-margin for all sections with id — navbar height + 12px */

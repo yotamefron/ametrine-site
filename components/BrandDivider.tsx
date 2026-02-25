@@ -4,7 +4,7 @@ export default function BrandDivider() {
   return (
     <section
       className="relative py-20 lg:py-28 overflow-hidden"
-      style={{ backgroundColor: "#08080f", zIndex: 1 }}
+      style={{ backgroundColor: "rgba(8,8,15,0.95)", zIndex: 1 }}
     >
       {/* 6% gold-purple gradient overlay */}
       <div

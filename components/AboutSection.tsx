@@ -25,7 +25,7 @@ export default function AboutSection() {
     <section
       ref={sectionRef}
       className="relative py-20 lg:py-32"
-      style={{ backgroundColor: "#0d0d16" }}
+      style={{ backgroundColor: "rgba(13,13,22,0.95)" }}
     >
       {/* Top gradient divider line */}
       <div
