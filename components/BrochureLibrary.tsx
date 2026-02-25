@@ -330,7 +330,11 @@ export default function BrochureLibrary() {
       id="brochures"
       ref={sectionRef}
       className="relative"
-      style={{ backgroundColor: "#08080f", padding: "24px 16px" }}
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(8,8,8,0.85), rgba(8,8,8,0.7) 50%, rgba(8,8,8,0.85)), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cpath d='M30 0 L60 17.3 L60 52 L30 69.3 L0 52 L0 17.3Z' fill='none' stroke='%231a3a1a' stroke-width='0.8'/%3E%3Cpath d='M30 52 L60 69.3 L60 104 L30 121.3 L0 104 L0 69.3Z' fill='none' stroke='%231a3a1a' stroke-width='0.8'/%3E%3C/svg%3E")`,
+        backgroundColor: "#080808",
+        padding: "24px 16px",
+      }}
     >
       <div className="absolute top-0 left-0 right-0 h-px" style={{ background: "linear-gradient(135deg, #FFD700, #FF6B00, #7B2FBE)" }} />
 

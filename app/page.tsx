@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import VideoSection from "@/components/VideoSection";
 import { HeroTop, HeroBottom } from "@/components/Hero";
 import SignatureManagement from "@/components/SignatureManagement";
-import TransitionBlock from "@/components/TransitionBlock";
+import SpectrumBar from "@/components/SpectrumBar";
 import BrandDivider from "@/components/BrandDivider";
 import BrochureLibrary from "@/components/BrochureLibrary";
 import PatternsSection from "@/components/PatternsSection";
@@ -92,7 +92,7 @@ export default function Home() {
             <VideoSection />
             <HeroBottom />
             <SignatureManagement />
-            <TransitionBlock />
+            <SpectrumBar />
             <BrandDivider />
             <BrochureLibrary />
             <PatternsSection />
