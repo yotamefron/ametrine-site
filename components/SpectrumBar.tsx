@@ -1,45 +1,52 @@
 "use client";
 
+// flex: [2, 6, 12, 8, 8, 14, 50] = 100
 const SEGMENTS = [
-  { label: "UV",                          flex: 3  },
-  { label: "VISUAL",                      flex: 8  },
-  { label: "NEAR INFRARED",              flex: 10 },
-  { label: "SHORT WAVE INFRARED (SWIR)", flex: 12 },
-  { label: "MID WAVE INFRARED (MWIR)",   flex: 10 },
-  { label: "LONG WAVE INFRARED (LWIR)",  flex: 15 },
-  { label: "RADAR",                       flex: 42 },
+  { label: "UV",                          flex: 2  },
+  { label: "VISUAL",                      flex: 6  },
+  { label: "NEAR INFRARED",              flex: 12 },
+  { label: "SHORT WAVE INFRARED (SWIR)", flex: 8  },
+  { label: "MID WAVE INFRARED (MWIR)",   flex: 8  },
+  { label: "LONG WAVE INFRARED (LWIR)",  flex: 14 },
+  { label: "RADAR",                       flex: 50 },
 ];
 
+// Cumulative % at each boundary: 0, 2, 8, 20, 28, 36, 50, 100
 const MARKERS = [
   { label: "360nm", pct: 0   },
-  { label: "400nm", pct: 3   },
-  { label: "700nm", pct: 11  },
-  { label: "1.3μm", pct: 21  },
-  { label: "3μm",   pct: 33  },
-  { label: "5μm",   pct: 43  },
-  { label: "1mm",   pct: 58  },
+  { label: "400nm", pct: 2   },
+  { label: "700nm", pct: 8   },
+  { label: "1.3μm", pct: 20  },
+  { label: "3μm",   pct: 28  },
+  { label: "5μm",   pct: 36  },
+  { label: "1mm",   pct: 50  },
   { label: "1m",    pct: 100 },
 ];
 
 // Divider positions (between segments, cumulative %)
-const DIVIDERS = [3, 11, 21, 33, 43, 58];
+const DIVIDERS = [2, 8, 20, 28, 36, 50];
 
 const BAR_GRADIENT = `linear-gradient(to right,
   #8B00FF 0%,
-  #4400FF 3%,
-  #0000FF 5%,
-  #0066FF 8%,
-  #00CCFF 11%,
-  #00FF88 14%,
-  #AAFF00 17%,
-  #FFD700 20%,
-  #FF6B00 23%,
-  #CC0000 28%,
-  #990000 45%,
-  #880000 58%,
-  #AA1133 72%,
-  #9966AA 80%,
-  #7744AA 100%
+  #4400CC 2%,
+  #0000FF 3%,
+  #0055FF 4%,
+  #00AAFF 5%,
+  #00FFCC 7%,
+  #00FF44 9%,
+  #AAFF00 11%,
+  #FFD700 14%,
+  #FF8800 17%,
+  #FF4400 20%,
+  #FF2200 22%,
+  #DD0000 28%,
+  #BB0000 36%,
+  #990000 42%,
+  #AA0022 52%,
+  #BB1144 62%,
+  #9955AA 74%,
+  #8844BB 87%,
+  #7733AA 100%
 )`;
 
 export default function SpectrumBar() {
