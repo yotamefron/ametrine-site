@@ -5,9 +5,9 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import brochuresData from "@/data/brochures.json";
 
-type Category = "ALL" | "OVERGARMENTS" | "BLANKETS" | "HIDE SITES" | "URBAN" | "MOBILE";
+type Category = "ALL" | "OVERGARMENTS" | "BLANKETS" | "HIDE SITES" | "URBAN" | "MOBILE" | "ACCESSORIES";
 
-const CATEGORIES: Category[] = ["ALL", "OVERGARMENTS", "BLANKETS", "HIDE SITES", "URBAN", "MOBILE"];
+const CATEGORIES: Category[] = ["ALL", "OVERGARMENTS", "BLANKETS", "HIDE SITES", "URBAN", "MOBILE", "ACCESSORIES"];
 
 const CATEGORY_MAP: Record<string, Category> = {
   Overgarments: "OVERGARMENTS",
@@ -15,6 +15,7 @@ const CATEGORY_MAP: Record<string, Category> = {
   "Hide Sites": "HIDE SITES",
   Urban: "URBAN",
   Mobile: "MOBILE",
+  Accessories: "ACCESSORIES",
 };
 
 const IMAGE_MAP: Record<string, string> = {
@@ -36,6 +37,7 @@ const IMAGE_MAP: Record<string, string> = {
   "TACTICAL VEHICLE HIDE SITE":    "TACTICAL VEHICLE HIDE SITE.png",
   "WINDOW CONCEALMENT KIT":        "WINDOW CONCEALMENT KIT.png",
   "WP SNIPER BLANKET":             "WP SNIPER BLANKET.png",
+  "SWAT SUIT":                     "SWAT SUIT.png",
 };
 
 interface Brochure {
@@ -156,9 +158,73 @@ function Lightbox({ title, src, onClose }: { title: string; src: string; onClose
   );
 }
 
-function ProductImage({ title, hovered }: { title: string; hovered: boolean }) {
+function AccessoriesPlaceholder({ title, description }: { title: string; description: string }) {
+  const items = description.split(" · ");
+  return (
+    <div
+      className="relative w-full aspect-video overflow-hidden"
+      style={{
+        flexShrink: 0,
+        background: "linear-gradient(135deg, #1a1a1a 0%, #111111 100%)",
+        border: "1px solid rgba(255, 215, 0, 0.2)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 10,
+      }}
+    >
+      {/* Honeycomb texture overlay */}
+      <div
+        style={{
+          position: "absolute",
+          inset: 0,
+          opacity: 0.05,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 2 L54 17 L54 47 L28 62 L2 47 L2 17 Z' fill='none' stroke='%23ffffff' stroke-width='0.8'/%3E%3C/svg%3E")`,
+          pointerEvents: "none",
+        }}
+      />
+      <span
+        style={{
+          position: "relative",
+          color: "#FFD700",
+          fontWeight: 900,
+          fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
+          letterSpacing: "0.15em",
+          textTransform: "uppercase",
+          fontFamily: "'Inter', system-ui, sans-serif",
+          textAlign: "center",
+        }}
+      >
+        {title}
+      </span>
+      <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}>
+        {items.map((item) => (
+          <span
+            key={item}
+            style={{
+              color: "rgba(255,255,255,0.5)",
+              fontSize: 11,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              lineHeight: 1.6,
+            }}
+          >
+            {item.trim()}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ProductImage({ title, description, category, hovered }: { title: string; description: string; category: string; hovered: boolean }) {
   const [errored, setErrored] = useState(false);
   const filename = IMAGE_MAP[title];
+
+  if (category === "Accessories" && !filename) {
+    return <AccessoriesPlaceholder title={title} description={description} />;
+  }
 
   if (!filename || errored) {
     return (
@@ -246,7 +312,7 @@ function BrochureCard({
       >
         {/* Clickable image wrapper — opens lightbox on desktop */}
         <div onClick={handleImageClick} style={{ cursor: imageSrc ? "zoom-in" : "default" }}>
-          <ProductImage title={brochure.title} hovered={hovered} />
+          <ProductImage title={brochure.title} description={brochure.description} category={brochure.category} hovered={hovered} />
         </div>
 
         <div className="flex flex-col flex-1" style={{ padding: "20px 16px" }}>
